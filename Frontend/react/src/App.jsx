@@ -5,6 +5,7 @@ import Shop from './Components/Shop'
 import Profile from './Components/Profile'
 import AdminPanel from './Components/AdminPanel'
 import ShopCategory from './Components/ShopCategory'
+import ContextProvider from './Context/ContextProvider'
  
 
 function App() {
@@ -12,7 +13,8 @@ function App() {
     <>
     <Navbar/>
 
-    <Routes>
+  <ContextProvider>
+      <Routes>
       <Route path="/" element={<Shop/>}/>
      
       <Route path="/profile" element={<Profile/>}/>
@@ -21,6 +23,7 @@ function App() {
 
       
     </Routes>
+  </ContextProvider>
     
     </>
   )
