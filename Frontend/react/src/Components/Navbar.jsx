@@ -8,7 +8,11 @@ import "../CSS/navbar.css";
  
 function Navbar() {
     let location = useLocation()
-   let cartCount = useSelector((state) => state.cart.productCount)
+  //  let cartCount = useSelector((state) => state.cart.productCount)
+
+   let cartCount = useSelector(
+    state => (state.cart?.products || []).reduce((sum,p) => sum + (p.qty || 1), 0)
+   )
 
   return (
     <>

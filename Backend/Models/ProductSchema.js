@@ -1,3 +1,72 @@
+// import { model, Schema } from "mongoose";
+
+
+// let productSchema = new Schema({
+//     productName:{
+//         type:String,
+//         required:true,
+//         unique:true,
+//         trim:true
+//     },
+
+//     productPrice:{
+//         type:Number,
+//         required:true,
+//         min:0
+//     },
+
+//     productImage:{
+//         type:[String],// yaha hum multtiple images allow kar rahe h
+//         required:true
+//     },
+    
+
+//     productCount:{
+//         type:Number,
+//         required:true,
+//         min:0
+//     },
+
+//     productCategory:{
+//         type:String,
+//         required:true,
+//         enum:["Men", "Women", "Kids"]
+//     },
+
+//     description:{
+//         type:String,
+//         required:true
+//     }
+
+// },
+// {
+//     timestamps:true
+// })
+
+
+
+// let products = new model("Products", productSchema)
+
+
+// export default products
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 import { model, Schema } from "mongoose";
 
 
@@ -5,34 +74,33 @@ let productSchema = new Schema({
     productName:{
         type:String,
         required:true,
-        unique:true,
-        trim:true
+ 
     },
+
+      productCategory:{
+        type:String,
+        required:true,
+ 
+    },
+
 
     productPrice:{
         type:Number,
         required:true,
-        min:0
+ 
     },
 
     productImage:{
         type:[String],// yaha hum multtiple images allow kar rahe h
-        required:true
+        // required:true
     },
     
 
     productCount:{
-        type:Number,
-        required:true,
-        min:0
+        type:Number
     },
 
-    productCategory:{
-        type:String,
-        required:true,
-        enum:["Men", "Women", "Kids"]
-    },
-
+  
     description:{
         type:String,
         required:true
@@ -44,8 +112,8 @@ let productSchema = new Schema({
 })
 
 
+//imortant model name 'Product' hona chaiye
+let Product =  model("Products", productSchema)
 
-let products = new model("Products", productSchema)
 
-
-export default products
+export default Product

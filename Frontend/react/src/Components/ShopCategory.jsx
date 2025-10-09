@@ -10,7 +10,7 @@ export default function ShopCategory() {
   const { values } = useContext(Productcontext);
 
   const reduxUser = useSelector((state) => state.user);
-  const [user, setUser] = useState(reduxUser);
+  const [user, setUser] = useState(reduxUser);//ye hoga
 
   useEffect(() => {
     const checkLogin = async () => {
@@ -25,7 +25,7 @@ export default function ShopCategory() {
             id: data.user._id,
             name: data.user.firstName + " " + data.user.lastName,
             userName: data.user.userName,
-          });
+          }); //ye hoga
           dispatch({
             type: "set-user",
             payload: {
@@ -33,7 +33,7 @@ export default function ShopCategory() {
               name: data.user.firstName + " " + data.user.lastName,
               userName: data.user.userName,
             },
-          });
+          }); //ye hoga
         } else setUser(null);
       } catch (err) {
         console.error("Failed to check login:", err);
@@ -41,11 +41,27 @@ export default function ShopCategory() {
       }
     };
     checkLogin();
-  }, [dispatch]);
+  // }, [dispatch]);
+    }, []);
+
+
+
+
+
+
+
+
+
+
+
 
   const filteredProducts = values.filter(
     (product) => product.productCategory.toLowerCase() === category.toLowerCase()
   );
+
+
+
+
 
   const addToCart = async (product) => {
     if (!user?.id) {
@@ -106,7 +122,8 @@ export default function ShopCategory() {
               <h3>{p.productName}</h3>
               <p>Price: ₹{p.productPrice}</p>
               <p>{p.description}</p>
-              {Array.isArray(p.productImage) &&
+
+   {Array.isArray(p.productImage) &&
                 p.productImage.map((img, idx) => (
                   <img
                     key={idx}
