@@ -117,3 +117,15 @@ let Product =  model("Products", productSchema)
 
 
 export default Product
+
+
+/// 4oct 2025 ko change kara ha mam ne 
+
+// const productSchema = new Schema({
+//   productName: { type: String, required: true },
+//   productCategory: { type: String, required: true},
+//   productPrice: { type: Number, required: true },
+//   description: { type: String },
+//   productImage: { type: [String]},
+//   productCount: { type: Number }
+// }, { timestamps: true });

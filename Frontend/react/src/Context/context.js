@@ -2,7 +2,7 @@ import { createContext } from "react";
 
 
 
-let productContext = createContext()
+let ProductContext = createContext()
 
 
-export default productContext
+export default ProductContext

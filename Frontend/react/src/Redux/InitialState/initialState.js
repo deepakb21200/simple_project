@@ -10,7 +10,10 @@ let initialState = {
         id:null,
         name:"",
         email:""
-    }
+    },
+
+
+    cartCount:0
 }
 
 

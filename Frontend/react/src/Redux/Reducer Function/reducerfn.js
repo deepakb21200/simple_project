@@ -52,30 +52,44 @@ let reducerfn = (state=initialState, action)=>{
 
 
 
-           case "product-add" : 
+           case "product-add" :
+
+           let count = state.cartCount + 1
+
         let existing = state.cart.products.find(
             (p)=> p.item._id === action.payload.item._id
         );
         
-       
+        // let cartCount = useSelector(
+        //    state => (state.cart?.products || []).reduce((sum,p) => sum + (p.qty || 1), 0)
+        //   )
 
         let newProducts;
         if(existing){
             newProducts = state.cart.products.map((p)=>
-                p.item._id === action.payload.item._id ? {...p,  qty:p.qty || 1 +1} : p
+                p.item._id === action.payload.item._id ? {...p,  qty: (p.qty || 1) + 1} : p
             )
         }else{
-            newProducts = [...state.cart.products,{...action.payload,qty:1}]
+            newProducts = [...state.cart.products,{...action.payload, qty:1}]
         }
 
         let totalPrice = newProducts.reduce(
-            (sum,p)=>sum + p.price * (p.qty || 1),
-            cartCount>=3 ? -100 : 0
+            (sum, p)=>sum + p.price * (p.qty || 1),
+            // cartCount>=3 ? -100 : 0
+               count >=3 ? -100 : 0
         );
         let totalShipping = newProducts.reduce(
             (sum , p)=> sum + (p.shipping || 0)
         )
         
+        return{
+            ...state,
+            cart:{
+                products:newProducts,
+                totalPrice,
+                totalShipping
+            }
+        }
          
         default :return state
     }

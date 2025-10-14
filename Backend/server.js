@@ -3,11 +3,17 @@ import dotenv from "dotenv"
 import cors from "cors"
 import cookieParser from "cookie-parser"
 import getConnection from "./Database/db.js"
+ 
+ 
+import cartRouter from "./Routers/cartRouter.js"
 import userRouter from "./Routers/userRouter.js"
+import productRouter from "./Routers/productRouter.js"
+ 
+ 
 
 dotenv.config()
 getConnection()
-let port = process.env.port
+let port = process.env.PORT
 
 let app = express()
 
@@ -23,10 +29,10 @@ app.use(express.json())
 
 
 app.use("/user", userRouter)
-// app.use("/products", productRouter)
 
+app.use("/products", productRouter)
 
-
+app.use("/cart", cartRouter)
 
 app.listen(port, ()=>{
     console.log(`Server started at ${port}`);

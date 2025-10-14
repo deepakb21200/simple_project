@@ -1,8 +1,8 @@
 import bcrypt from "bcrypt"
-import dotenv from "dotenv"
+ 
 import User from "../Models/UserSchema.js"
 
-dotenv.config()
+ 
 
 export default async function password(req, res,next){
     let {userName, password} = req.body

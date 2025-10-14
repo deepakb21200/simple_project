@@ -14,6 +14,9 @@ function Navbar() {
     state => (state.cart?.products || []).reduce((sum,p) => sum + (p.qty || 1), 0)
    )
 
+
+
+
   return (
     <>
     <div className={`navbar-container`}>
@@ -28,17 +31,17 @@ function Navbar() {
         
         </Link>
 
-         <Link to="/men">
+         <Link to="/shop/men">
           <button className={`${location.pathname === "/men" ? "active" : ""}`}>Men</button>
          </Link>
 
 
-          <Link to="/women">
+          <Link to="/shop/women">
           <button className={`${location.pathname === "/women" ? "active" : ""}`}>Women</button>
           </Link>
 
 
-         <Link to="/kids">
+         <Link to="/shop/kids">
           <button className={`${location.pathname === "/kids" ? "active" : ""}`}>Kids</button>
           </Link>
       </div>

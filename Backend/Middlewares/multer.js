@@ -42,7 +42,7 @@ let upload = multer({
 })
 
 
-export default upload
+
 
 
 
@@ -68,3 +68,5 @@ export let handleMulterError = (error, req, res, next)=>{
     next()
 
 }
+
+export default upload

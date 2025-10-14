@@ -5,6 +5,8 @@ import { MdCameraEnhance } from "react-icons/md";
 import { useNavigate } from "react-router-dom";
 
 import { FaUser } from "react-icons/fa";
+import Login from "./Login";
+import Register from "./Register";
 function Profile() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [loggedInUser, setLoggedInUser] = useState(null);
@@ -99,11 +101,12 @@ const [lockTime, setLockTime] = useState(null);
 
     if (res.ok) {
       setIsLoggedIn(true);
+      //yaha daalna hai 
        setAttempts(0);
           if (data.isAdmin) {
       
         navigate("/admin");
-        return;
+        return; 
       }
          const profileRes = await fetch("http://localhost:3000/user/getProfile", {
       method: "GET",
@@ -151,8 +154,14 @@ const [lockTime, setLockTime] = useState(null);
                 <div className="loader"><i/></div>
               </>
             ) : (
-              <>
-                {showSignup && (
+              <> 
+              {showSignup &&  
+                <Register  form={form} setForm={setForm} showPassword={showPassword} setShowPassword={setShowPassword} passwordError={passwordError}
+                validatePassword={validatePassword}/>}
+
+
+
+                {/* {showSignup && ( 
                   <div className="form-block">
                     <h2>Signup</h2>
                     <div className="form-grid">
@@ -179,7 +188,7 @@ const [lockTime, setLockTime] = useState(null);
                             top: "50%",
                             transform: "translateY(-50%)",
                             cursor: "pointer",
-                            color: "rgba(250,250,250,0.6)"
+                            color: "rgba(250,250,250,0.6)"  
                           }}
                         >
                           {showPassword ? "🙈" : "👁️"}
@@ -202,12 +211,15 @@ const [lockTime, setLockTime] = useState(null);
                       <button className="btn btn-primary" onClick={handleSignup}>Signup</button>
                     </div>
                   </div>
-                )}
+                )} */}
+
+
+               
 
                 <div className="hr" />
 
-                <div className="form-block">
-                  <h2>Login</h2>
+                {/* <div className="form-block">
+                  <h2>Logins</h2>
                   <div className="form-grid">
                     <input className="input" placeholder="Username" onChange={e => setForm({ ...form, userName: e.target.value })} />
 
@@ -238,7 +250,14 @@ const [lockTime, setLockTime] = useState(null);
                       <button className="btn btn-primary" onClick={handleLogin}>Login</button>
                     </div>
                   </div>
-                </div>
+                </div> */}
+
+
+
+
+
+
+                  <Login  showPassword= {showPassword} setShowPassword={setShowPassword} handleLogin={handleLogin} form={form} setForm={setForm}/>
               </>
             )}
           </div>
@@ -270,6 +289,9 @@ const [lockTime, setLockTime] = useState(null);
       </div>
     </div>
   </div>
+
+
+
   );
 }
 

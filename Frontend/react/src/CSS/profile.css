@@ -42,7 +42,7 @@
 }
 
 
-.auth-card {
+/* .auth-card {
   width: 980px;
   max-width: 96%;
   display: grid;
@@ -52,7 +52,7 @@
   border-radius: var(--radius);
   box-shadow: var(--shadow);
   overflow: hidden;
-}
+} */
 
 
 .brand-panel {

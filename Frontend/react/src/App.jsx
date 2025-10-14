@@ -6,6 +6,9 @@ import Profile from './Components/Profile'
 import AdminPanel from './Components/AdminPanel'
 import ShopCategory from './Components/ShopCategory'
 import ContextProvider from './Context/ContextProvider'
+import CartPage from './Components/CartPage'
+import Register from './Components/Register'
+import Login from './Components/Login'
  
 
 function App() {
@@ -15,13 +18,16 @@ function App() {
 
   <ContextProvider>
       <Routes>
+        {/* <Route path="/" element={<Register/>}/> */}
+           {/* <Route path="/" element={<Login/>}/>   */}
       <Route path="/" element={<Shop/>}/>
      
       <Route path="/profile" element={<Profile/>}/>
        <Route path="/admin" element={<AdminPanel/>}/>
-        <Route path="/shop:category" element={  <ShopCategory/>}/>
+        <Route path="/shop/:category" element={  <ShopCategory/>}/>
 
-      
+          <Route path="/cart" element={<CartPage/>}/>
+   
     </Routes>
   </ContextProvider>
     
@@ -30,3 +36,14 @@ function App() {
 }
 
 export default App
+
+
+
+// deepak
+
+// bisht
+
+// deepakb21200
+
+
+// deepakBisht@1234

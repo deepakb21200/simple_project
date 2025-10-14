@@ -1,15 +1,16 @@
  import { Router } from "express";
 import { middle } from "../Middlewares/middle.js";
-import { addToCart, getCart } from "../Controllers/cartController.js";
+import { addToCart, getCart, updateCart } from "../Controllers/cartController.js";
 
 
- let cardRouter = Router()
+ let cartRouter = Router()
 
- cardRouter.get("/add", middle, addToCart)
+ cartRouter.post("/add", middle, addToCart)
 
- cardRouter.get("/get", middle, getCart)
+cartRouter.get("/get", middle, getCart)
 
+cartRouter.post("/update", middle, updateCart)
 
- export default cardRouter
+ export default cartRouter
 
 

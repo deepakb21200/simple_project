@@ -1,0 +1,207 @@
+
+/* Wrapper */
+.register-wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  padding: 1rem;
+
+}
+
+/* Card layout */
+.register-card {
+  display: flex;
+  flex-direction: row;
+  background-color: #fff;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+  border-radius: 12px;
+  overflow: hidden;
+  max-width: 900px;
+  width: 100%;
+}
+
+/* Left panel */
+.left-panel {
+  flex: 1;
+  background-color: #00796b;
+  color: white;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 2rem;
+}
+
+.left-panel h2 {
+  font-size: 2rem;
+  margin-bottom: 0.5rem;
+}
+
+.left-panel p {
+  font-size: 1rem;
+  margin-bottom: 1rem;
+}
+
+.icons {
+  font-size: 2rem;
+}
+
+/* Right panel */
+.right-panel {
+  flex: 1;
+  padding: 3rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.right-panel h2 {
+  font-size: 1.8rem;
+  margin-bottom: 0.5rem;
+}
+
+.subtitle {
+  color: #666;
+  margin-bottom: 2rem;
+}
+
+form input {
+  /* width: 100%; */
+  padding: 0.75rem;
+  margin-bottom: 1rem;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  font-size: 1rem;
+
+ color:black;
+}
+
+form button {
+  width: 100%;
+  padding: 0.75rem;
+  background-color: #00796b;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  font-weight: bold;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background 0.3s ease;
+}
+
+form button:hover {
+  background-color: #004d40;
+}
+
+.login-link {
+  margin-top: 1rem;
+  text-align: center;
+  font-size: 0.9rem;
+}
+
+.login-link a {
+  color: #00796b;
+  text-decoration: none;
+  font-weight: bold;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .register-card {
+    flex-direction: column;
+  }
+
+  .left-panel {
+    padding: 1.5rem;
+    text-align: center;
+  }
+
+  .right-panel {
+    padding: 2rem;
+  }
+}
+
+
+.file-input {
+  margin-bottom: 1rem;
+  padding: 0.5rem;
+  background-color: rgba(255, 255, 255, 0.2);
+ 
+  border-radius: 6px;
+        color:black;
+  font-size: 0.95rem;
+}
+
+
+
+/* .password-wrapper {
+  display: flex;
+  align-items: center;
+  border: 1px solid #ccc;
+ 
+  padding: 0 0.75rem;
+}
+
+ .password-wrapper:focus-within {
+ border: 1px solid #ccc;
+}
+
+
+
+
+
+
+
+
+
+
+
+.password-wrapper {
+  display: flex;
+  align-items: center;
+  padding: 0 0.75rem;
+  border: 1px solid black;
+  border-radius: 0.5rem;
+  transition: border-color 0.2s ease;
+}
+
+.password-wrapper:focus-within {
+  border-color: #ccc; /* Focus hone par border dikhai dega 
+}*/
+
+
+
+
+.password-wrapper {
+  display: flex;
+  align-items: center;
+  border: 1px solid #d1d5db; /* light gray normal */
+  border-radius: 0.5rem;
+  padding: 0 0.75rem;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.password-wrapper:focus-within {
+  border-color: #3b82f6; /* blue highlight on focus */
+  box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.2); /* subtle glow */
+}
+
+
+._input {
+  width: 100%;
+  padding: 0.6rem 0.75rem;
+  border: 1px solid #d1d5db; /* normal gray */
+  border-radius: 0.5rem;
+  outline: none;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+._input:focus {
+  border-color: #3b82f6; /* blue focus */
+  box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.2);
+}
+
+
+
+
