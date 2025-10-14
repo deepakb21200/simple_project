@@ -76,57 +76,300 @@
 
 
 
+// ye hai orignal 
 
- import React, { useState } from 'react';
-import './Login.css'; // import the CSS file
 
-const Login = ({showPassword,setShowPassword,form, setForm, handleLogin}) => {
-//   const [showPassword, setShowPassword] = useState(false);
+  import React, { useState } from 'react';
+  import './Login.css';  
+import { useNavigate } from 'react-router-dom';
+ 
+  const Login = ({showPassword,setShowPassword, setShowSignup, setIsLoggedIn,setLoggedInUser}) => {
+  const [form, setForm] = useState({ userName: "", password: ""});
+  // console.log(handleLogin, "handlelogin")
+const [attempts, setAttempts] = useState(0);
+const [lockTime, setLockTime] = useState(null);
 
-  return (
-    <div className="login-wrapper">
-      <div className="login-card">
-        <h2 className="login-title text-black">Login</h2>
-        <p className="login-subtitle">Welcome back! Please login to your account.</p>
-        <form onSubmit={(e) => e.preventDefault()} className="login-form">
-          {/* Username */}
-          <input
-            type="text"
-            placeholder="Username"
-            className="login-input"
-          />
+const navigate = useNavigate();
 
-          {/* Password wrapper */}
-          <div className="password-wrapper">
+  const handleLogin = async () => {
+     if (lockTime && Date.now() - lockTime < 2 * 60 * 1000) {
+    alert("Too many failed attempts. Please try again after 2 minutes.");
+    return;
+  }
+ 
+  
+    const res = await fetch("http://localhost:3000/user/login", {
+
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      credentials: "include",
+      body: JSON.stringify({ userName: form.userName, password: form.password }),
+    });
+    const data = await res.json();
+
+    if (res.ok) {
+      setIsLoggedIn(true);
+      //yaha daalna hai 
+       setAttempts(0);
+          if (data.isAdmin) {
+      
+        navigate("/admin");
+        return; 
+      }
+         const profileRes = await fetch("http://localhost:3000/user/getProfile", {
+      method: "GET",
+      credentials: "include",
+    });
+    const profileData = await profileRes.json();
+      setLoggedInUser(profileData.user);
+      setAttempts(0)// ye maine kara hai
+    }
+    else{
+        setAttempts(prev => prev + 1);
+        //0
+        //1
+        if(attempts+1 >=3){
+              setLockTime(Date.now());   
+      alert("Too many failed attempts! Try again in 2 minutes.");
+      return;
+        }
+      alert(data.error|| "login failed")
+    }
+  };
+
+
+
+
+
+
+
+    return (
+      <div className="login-wrapper flex-1">
+        <div className="login-card">
+          <h2 className="login-title text-black">Login</h2>
+          <p className="login-subtitle">Welcome back! Please login to your account.</p>
+          <form onSubmit={(e) => e.preventDefault()} className="login-form">
+            {/* Username */}
             <input
-              type={showPassword ? "text" : "password"}
-              placeholder="Password"
-              className="password-input mb-0"
-              onChange={e => setForm({ ...form, password: e.target.value })}
+              type="text"
+              placeholder="Username"
+              className="login-input"
+               onChange={e => setForm({ ...form, userName: e.target.value })}
             />
-            <span
-              className="toggle-password"
-               onClick={() => setShowPassword(!showPassword)}
-            >
-              {showPassword ? "🙈" : "👁️"}
-            </span>
-          </div>
 
-          <button
-            type="submit"
-            onClick={handleLogin}
-            className="login-button"
-          >
-            LOGIN
-          </button>
-        </form>
-        <p className="register-text">
-          New user? <a href="#" className="register-link">Register here</a>
-        </p>
+            {/* Password wrapper */}
+            <div className="password-wrapper">
+              <input
+                type={showPassword ? "text" : "password"}   placeholder="Password"
+                 className="password-input mb-0"
+                onChange={e => setForm({ ...form, password: e.target.value })}
+              />
+              <span className="toggle-password" onClick={() => setShowPassword(!showPassword)}>
+
+                {showPassword ? "🙈" : "👁️"}
+              </span>
+            </div>
+
+            <button type="submit"  onClick={handleLogin}  className="login-button" >
+              LOGIN </button>
+          </form>
+        
+
+          <p className="register-text">
+  New user?{" "}
+  <button
+    onClick={() => setShowSignup(true)} // ✅ toggle to Register
+    className="register-link text-blue-600 hover:underline"
+  >
+    Register here
+  </button>
+</p>
+        </div>
       </div>
-    </div>
-  );
-};
+    );
+  };
 
-export default Login;
+  export default Login;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  {/* <p className="register-text">
+            New user? <Link to="/register" className="register-link">
+    Register here </Link>
+          </p> */}
+
+
+
+
+//pending
+
+
+
+
+//  import React, { useState } from 'react';
+// import './Login.css';  
+// import { Link, useNavigate } from 'react-router-dom';
+
+// const Login = ({}) => {
+// const [lockTime, setLockTime] = useState(null);
+// const [attempts, setAttempts] = useState(0);
+//  const [form, setForm] = useState({ userName: "", password: ""});
+//  const [showPassword, setShowPassword] = useState(false);
+//  const navigate = useNavigate();
+
+//   const handleLogin = async () => {
+//      if (lockTime && Date.now() - lockTime < 2 * 60 * 1000) {
+//     alert("Too many failed attempts. Please try again after 2 minutes.");
+//     return;
+//   }
+//     const res = await fetch("http://localhost:3000/user/login", {
+//       method: "POST",
+//       headers: { "Content-Type": "application/json" },
+//       credentials: "include",
+//       body: JSON.stringify({ userName: form.userName, password: form.password }),
+//     });
+//     const data = await res.json();
+
+//     if (res.ok) {
+//       setIsLoggedIn(true);
+//       //yaha daalna hai 
+//        setAttempts(0);
+//           if (data.isAdmin) {
+      
+//         navigate("/admin");
+//         return; 
+//       }
+//          const profileRes = await fetch("http://localhost:3000/user/getProfile", {
+//       method: "GET",
+//       credentials: "include",
+//     });
+//     const profileData = await profileRes.json();
+//       setLoggedInUser(profileData.user);
+//     }
+//     else{
+//         setAttempts(prev => prev + 1);
+//         //0
+//         //1
+//         if(attempts+1 >=3){
+//               setLockTime(Date.now());   
+//       alert("Too many failed attempts! Try again in 2 minutes.");
+//       return;
+//         }
+//       alert(data.error|| "login failed")
+//     }
+//   };
+//   return (
+//     <div className="login-wrapper   flex-1">
+//       <div className="login-card">
+//         <h2 className="login-title text-black">Login</h2>
+//         <p className="login-subtitle">Welcome back! Please login to your account.</p>
+//         <form onSubmit={(e) => e.preventDefault()} className="login-form">
+//           {/* Username */}
+//           <input
+//             type="text"
+//             placeholder="Username"
+//             className="login-input"
+//              onChange={e => setForm({ ...form, userName: e.target.value })}
+//           />
+
+//           {/* Password wrapper */}
+//           <div className="password-wrapper">
+//             <input
+//               type={showPassword ? "text" : "password"}
+//               placeholder="Password"
+//               className="password-input mb-0"
+//               onChange={e => setForm({ ...form, password: e.target.value })}
+//             />
+//             <span
+//               className="toggle-password"
+//                onClick={() => setShowPassword(!showPassword)}
+//             >
+//               {showPassword ? "🙈" : "👁️"}
+//             </span>
+//           </div>
+
+//           <button
+//             type="submit"
+//             onClick={handleLogin}
+//             className="login-button"
+//           >
+//             LOGIN
+//           </button>
+//         </form>
+//         <p className="register-text">
+//           New user? <Link to="/register" className="register-link">
+//   Register here
+// </Link>
+
+//         </p>
+//       </div>
+//     </div>
+//   );
+// };
+
+// export default Login;
 

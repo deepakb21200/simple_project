@@ -82,7 +82,7 @@ setProducts(Array.isArray(data.products) ? data.products : []);
         method: "DELETE",
       });
       if (res.ok) fetchProducts();
-      else alert("Failed to delete product");
+      else alert("Failed to delete productss");
     } catch (error) {
       console.error("Error deleting product:", error);
     }

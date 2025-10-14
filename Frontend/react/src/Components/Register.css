@@ -1,13 +1,5 @@
 
 /* Wrapper */
-.register-wrapper {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  min-height: 100vh;
-  padding: 1rem;
-
-}
 
 /* Card layout */
 .register-card {
@@ -19,6 +11,7 @@
   overflow: hidden;
   max-width: 900px;
   width: 100%;
+  
 }
 
 /* Left panel */
@@ -97,7 +90,7 @@ form button:hover {
 .login-link {
   margin-top: 1rem;
   text-align: center;
-  font-size: 0.9rem;
+  
 }
 
 .login-link a {

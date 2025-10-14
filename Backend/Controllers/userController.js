@@ -263,7 +263,7 @@ export async function signup(req, res) {
 export async function login(req, res) {
   let { user } = req.body;
   try {
-    let token = await jwt.sign({ id: user._id }, process.env.secret_key, {
+    let token = jwt.sign({ id: user._id }, process.env.secret_key, {
       expiresIn: "1d",
     });
     res
@@ -282,6 +282,8 @@ export async function login(req, res) {
       });
   } catch (error) {
     res.send(error);
+    console.log("errossss");
+    
   }
 }
 

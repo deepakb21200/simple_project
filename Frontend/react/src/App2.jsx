@@ -7,18 +7,19 @@ import AdminPanel from './Components/AdminPanel'
 import ShopCategory from './Components/ShopCategory'
 import ContextProvider from './Context/ContextProvider'
 import CartPage from './Components/CartPage'
- 
+import Register from './Components/Register'
+import Login from './Components/Login'
 import Profile2 from './Components/Profiles2'
  
 
 function App() {
   return (
     <>
- 
-   <div className='  min-h-screen w-full flex flex-col '>
-      <Navbar/>
- 
-          <ContextProvider>
+   
+   <div className='border-[5px] border-blue-600  h-full w-full'>
+    
+  <Navbar/>
+  <ContextProvider>
    
  
  
@@ -30,7 +31,6 @@ function App() {
       {/* <Route path="/profile" element={<Profile/>}/> */}
       <Route path="/profile" element={<Profile2/>}/>
        <Route path="/admin" element={<AdminPanel/>}/>
-   
         <Route path="/shop/:category" element={  <ShopCategory/>}/>
 
           <Route path="/cart" element={<CartPage/>}/>
@@ -40,9 +40,6 @@ function App() {
  
       
   </ContextProvider>
-      
-  
-
    </div>
     
     </>
@@ -61,14 +58,3 @@ export default App
 
 
 // deepakBisht@1234
-
-
-
-// Deepak
-
-// Bisht
-
-
-// deepakB345
-
-// DeepakBisht@1234

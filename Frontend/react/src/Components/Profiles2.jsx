@@ -7,22 +7,25 @@ import { useNavigate } from "react-router-dom";
 import { FaUser } from "react-icons/fa";
 import Login from "./Login";
 import Register from "./Register";
-function Profile() {
+function Profile2() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [loggedInUser, setLoggedInUser] = useState(null);
   const [form, setForm] = useState({ firstName: "", lastName: "", userName: "", password: "" , picture:""});
   const [loading, setLoading] = useState(false);
   const [showSignup, setShowSignup] = useState(true);
-const navigate = useNavigate();
 
-const [attempts, setAttempts] = useState(0);
-const [lockTime, setLockTime] = useState(null);
+  const [showSignup2, setShowSignup2] = useState(true);
+
+
+
+// const navigate = useNavigate();
+
+// const [attempts, setAttempts] = useState(0);
+// const [lockTime, setLockTime] = useState(null);
   const [passwordError, setPasswordError] = useState("");
   const [showPassword, setShowPassword] = useState(false);
 
   // check krra h ki logged in h ya nhi
-
-
   useEffect(() => {
     async function checkLogin() {
       let res = await fetch("http://localhost:3000/user/getProfile", {
@@ -88,47 +91,47 @@ const [lockTime, setLockTime] = useState(null);
     }
   };
 
-  const handleLogin = async () => {
-     if (lockTime && Date.now() - lockTime < 2 * 60 * 1000) {
-    alert("Too many failed attempts. Please try again after 2 minutes.");
-    return;
-  }
-    const res = await fetch("http://localhost:3000/user/login", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      credentials: "include",
-      body: JSON.stringify({ userName: form.userName, password: form.password }),
-    });
-    const data = await res.json();
+//   const handleLogin = async () => {
+//      if (lockTime && Date.now() - lockTime < 2 * 60 * 1000) {
+//     alert("Too many failed attempts. Please try again after 2 minutes.");
+//     return;
+//   }
+//     const res = await fetch("http://localhost:3000/user/login", {
+//       method: "POST",
+//       headers: { "Content-Type": "application/json" },
+//       credentials: "include",
+//       body: JSON.stringify({ userName: form.userName, password: form.password }),
+//     });
+//     const data = await res.json();
 
-    if (res.ok) {
-      setIsLoggedIn(true);
-      //yaha daalna hai 
-       setAttempts(0);
-          if (data.isAdmin) {
+//     if (res.ok) {
+//       setIsLoggedIn(true);
+//       //yaha daalna hai 
+//        setAttempts(0);
+//           if (data.isAdmin) {
       
-        navigate("/admin");
-        return; 
-      }
-         const profileRes = await fetch("http://localhost:3000/user/getProfile", {
-      method: "GET",
-      credentials: "include",
-    });
-    const profileData = await profileRes.json();
-      setLoggedInUser(profileData.user);
-    }
-    else{
-        setAttempts(prev => prev + 1);
-        //0
-        //1
-        if(attempts+1 >=3){
-              setLockTime(Date.now());   
-      alert("Too many failed attempts! Try again in 2 minutes.");
-      return;
-        }
-      alert(data.error|| "login failed")
-    }
-  };
+//         navigate("/admin");
+//         return; 
+//       }
+//          const profileRes = await fetch("http://localhost:3000/user/getProfile", {
+//       method: "GET",
+//       credentials: "include",
+//     });
+//     const profileData = await profileRes.json();
+//       setLoggedInUser(profileData.user);
+//     }
+//     else{
+//         setAttempts(prev => prev + 1);
+//         //0
+//         //1
+//         if(attempts+1 >=3){
+//               setLockTime(Date.now());   
+//       alert("Too many failed attempts! Try again in 2 minutes.");
+//       return;
+//         }
+//       alert(data.error|| "login failed")
+//     }
+//   };
 
   const handleLogout = async () => {
     const res = await fetch("http://localhost:3000/user/logout", {
@@ -145,11 +148,10 @@ const [lockTime, setLockTime] = useState(null);
 
   if (!isLoggedIn) {
     return (
-      <div className="auth-page">
-        <div className="auth-card">
 
-
-          <div className="auth-panel">
+        //   <div className="auth-panel  flex justify-center items-center border-[4px] border-purple-600 ">
+       <div className="flex-1  flex  justify-center">
+       
             {loading ? (
               <>
                 <div className="small-muted">⏳ Creating your account...</div>
@@ -157,8 +159,32 @@ const [lockTime, setLockTime] = useState(null);
               </>
             ) : (
               <> 
- {showSignup && ( 
-            <div className="form-block">
+
+
+
+
+   {showSignup ? (
+        <Register
+         setShowSignup={setShowSignup}
+          setLoading={setLoading}
+        />
+      ) : (
+        <Login
+         setShowSignup={setShowSignup}
+  
+          showPassword={showPassword}
+          setShowPassword={setShowPassword}
+   
+         setIsLoggedIn={setIsLoggedIn}
+         setLoggedInUser={setLoggedInUser}
+        />
+      )}
+
+
+
+
+                {/* {showSignup && ( 
+                  <div className="form-block">
                     <h2>Signup</h2>
                     <div className="form-grid">
                       <input className="input" placeholder="First Name" onChange={e => setForm({ ...form, firstName: e.target.value })} />
@@ -207,14 +233,14 @@ const [lockTime, setLockTime] = useState(null);
                       <button className="btn btn-primary" onClick={handleSignup}>Signup</button>
                     </div>
                   </div>
-                )} 
+                )} */}
 
 
                
 
-                <div className="hr" /> 
+                {/* <div className="hr" /> */}
 
-                <div className="form-block">
+                {/* <div className="form-block">
                   <h2>Logins</h2>
                   <div className="form-grid">
                     <input className="input" placeholder="Username" onChange={e => setForm({ ...form, userName: e.target.value })} />
@@ -246,19 +272,24 @@ const [lockTime, setLockTime] = useState(null);
                       <button className="btn btn-primary" onClick={handleLogin}>Login</button>
                     </div>
                   </div>
-                </div>
+                </div> */}
 
 
 
 
 
 
-                  {/* <Login  showPassword= {showPassword} setShowPassword={setShowPassword} handleLogin={handleLogin} form={form} setForm={setForm}/> */}
+                   {/* <Login  showPassword= {showPassword} setShowPassword={setShowPassword}
+                    handleLogin ={handleLogin} setAttempts={setAttempts} setIsLoggedIn={setIsLoggedIn} /> */}
               </>
             )}
           </div>
-        </div>
-      </div>
+
+
+
+        
+     
+ 
     );
   }
 
@@ -266,29 +297,127 @@ const [lockTime, setLockTime] = useState(null);
   return (
    
 
-      <div className="auth-page">
-    <div className="profile-card">
-      <div className="welcome-card">
-        <div className="picture-div">
-          <FaUser />
-      <img src={loggedInUser?.picture} alt="" className="picture"/>
-        <button className="edit-icon">
-          <MdCameraEnhance />
-        </button>
-        </div>
+//       <div className="auth-page">
+//     <div className="profile-card">
+//       <div className="welcome-card">
+//         <div className="picture-div">
+//           <FaUser />
+//       <img src={loggedInUser?.picture} alt="" className="picture"/>
+//         <button className="edit-icon">
+//           <MdCameraEnhance />
+//         </button>
+//         </div>
   
-        <h2>Welcome {loggedInUser?.firstName} {loggedInUser?.lastName}</h2>
-        <p className="small-muted">Username: {loggedInUser?.userName}</p>
-        <div style={{ marginTop: 12 }}>
-          <button className="btn btn-primary" onClick={handleLogout}>Logout</button>
+//         <h2>Welcome {loggedInUser?.firstName} {loggedInUser?.lastName}</h2>
+//         <p className="small-muted">Username: {loggedInUser?.userName}</p>
+//         <div style={{ marginTop: 12 }}>
+//           <button className="btn btn-primary" onClick={handleLogout}>Logout</button>
+//         </div>
+//       </div>
+//     </div>
+//   </div>
+
+
+
+
+<div className="flex justify-center items-center  flex-1 bg-gradient-to-r from-indigo-100 to-purple-100 p-6">
+  <div className="bg-white shadow-2xl rounded-3xl w-full max-w-xl p-10 md:p-16 flex flex-col items-center">
+    {/* Profile Picture */}
+    <div className="relative w-52 h-52 mb-8 md:mb-10">
+      {loggedInUser?.picture ? (
+        <img
+          src={loggedInUser.picture}
+          alt="Profile"
+          className="w-full h-full rounded-full object-cover border-4 border-indigo-500 shadow-lg"
+        />
+      ) : (
+        <div className="w-full h-full rounded-full bg-gray-200 flex items-center justify-center text-gray-400 text-8xl">
+          <FaUser />
         </div>
-      </div>
+      )}
+      {/* Edit button */}
+      <button className="absolute bottom-0 right-0 bg-indigo-500 text-white p-4 rounded-full shadow-xl hover:bg-indigo-600 transition">
+        <MdCameraEnhance size={28} />
+      </button>
+    </div>
+
+    {/* Welcome text */}
+    <h2 className="text-4xl font-bold text-gray-800 text-center mb-3 md:mb-4">
+      Welcome {loggedInUser?.firstName} {loggedInUser?.lastName}
+    </h2>
+    <p className="text-lg text-gray-500 mb-8 md:mb-10 text-center">
+      Username: {loggedInUser?.userName}
+    </p>
+
+    {/* Logout button */}
+    <div className="w-full flex justify-center">
+      <button
+        onClick={handleLogout}
+        className="bg-indigo-500 text-white px-10 py-4 rounded-xl shadow-lg hover:bg-indigo-600 transition transform hover:scale-105"
+      >
+        Logout
+      </button>
     </div>
   </div>
+</div>
+
+
+
 
 
 
   );
 }
 
-export default Profile;
+export default Profile2;
+
+
+
+
+  {/* {showSignup &&  
+                <Register  form={form} setForm={setForm} showPassword={showPassword} setShowPassword={setShowPassword} passwordError={passwordError}
+                validatePassword={validatePassword}/>} */}
+
+
+    {/* <div className="flex justify-center items-center min-h-screen bg-gray-100 p-4">
+  <div className="bg-white shadow-lg rounded-2xl w-full max-w-md p-6">
+    <div className="flex flex-col items-center">
+ 
+      <div className="relative w-32 h-32 mb-4">
+        {loggedInUser?.picture ? (
+          <img
+            src={loggedInUser.picture}
+            alt="Profile"
+            className="w-full h-full rounded-full object-cover border-4 border-indigo-500"
+          />
+        ) : (
+          <div className="w-full h-full rounded-full bg-gray-200 flex items-center justify-center text-gray-400 text-4xl">
+            <FaUser />
+          </div>
+        )}
+  
+        <button className="absolute bottom-0 right-0 bg-indigo-500 text-white p-2 rounded-full shadow-lg hover:bg-indigo-600 transition">
+          <MdCameraEnhance size={20} />
+        </button>
+      </div>
+
+ 
+      <h2 className="text-2xl font-semibold text-gray-800 text-center">
+        Welcome {loggedInUser?.firstName} {loggedInUser?.lastName}
+      </h2>
+      <p className="text-sm text-gray-500 mt-1 text-center">
+        Username: {loggedInUser?.userName}
+      </p>
+
+ 
+      <div className="mt-6 w-full flex justify-center">
+        <button
+          onClick={handleLogout}
+          className="bg-indigo-500 text-white px-6 py-2 rounded-lg shadow-md hover:bg-indigo-600 transition"
+        >
+          Logout
+        </button>
+      </div>
+    </div>
+  </div>
+</div> */}

@@ -136,6 +136,25 @@ export default function ShopCategory() {
   }, 300)
 }
 
+
+
+
+
+
+
+
+
+
+
+  const [activeImages, setActiveImages] = useState({});
+
+  // har product ke liye alag image change karega
+  const changeImage = (productId, newSrc) => {
+    setActiveImages((prev) => ({
+      ...prev,
+      [productId]: newSrc,
+    }));
+  };
   return (
   //   <div style={{ padding: "20px" }}>
   //     <h2>Shop for: {category}</h2>
@@ -201,56 +220,116 @@ export default function ShopCategory() {
 
 
 
-  <div style={{ padding: "20px" }}>
-      <h2>Shop for: {category}</h2>
-     {filteredProducts.length > 0 ? (
-  filteredProducts.map((p) => (
-    <div key={p._id} className={`product-card justify-between pt-0 pr-4 pb-4 pl-4 
-         mx-[15px] 2xl:mx-[10px] `} style={{boxShadow: '0px 4px 12px rgba(0,0,0,0.5)'}}>
-      <img src={p.productImage[0]} alt="" className="fade-image"   ref={images} /> 
-      <div>
-        <div className="product-title">{p.productName}</div>
+  // <div style={{ padding: "20px" }}>
+//     <div className=" ">
+//       <h2 className="font-bold text-2xl">Shop for: {category}</h2>
+//    <div className="flex border-2 border-red-500 justify-center">
+//       {filteredProducts.length > 0 ? (
+//   filteredProducts.map((p) => (
+//     <div key={p._id} className={`product-card  justify-between pt-0 pr-4 pb-4 pl-4 
+//          mx-[15px] 2xl:mx-[10px] `} style={{boxShadow: '0px 4px 12px rgba(0,0,0,0.5)'}}>
+//       <img src={p.productImage[0]} alt="" className="fade-image"   ref={images} /> 
+//       <div>
+//         <div className="product-title">{p.productName}</div>
  
-        <div className="product-price">₹{p.productPrice}
+//         <div className="product-price">₹{p.productPrice}
      
-        </div>
+//         </div>
  
 
-        {p.productImage.length > 0 && (
-  <div className="gallery flex gap-2 mt-2">
-    {p.productImage.map((img, idx) => (
-      <img
-        key={idx}
-        src={img}
-        alt={`${p.productName} ${idx + 1}`}
-        className="w-16 h-16 object-cover rounded cursor-pointer hover:ring-2 hover:ring-blue-500"
-        onClick={() => changeimage(img)} // click par main image change karega
-      />
-    ))}
-  </div>
-)}
+//         {p.productImage.length > 0 && (
+//   <div className="gallery flex gap-2 mt-2">
+//     {p.productImage.map((img, idx) => (
+//       <img
+//         key={idx}
+//         src={img}
+//         alt={`${p.productName} ${idx + 1}`}
+//         className="w-16 h-16 object-cover rounded cursor-pointer hover:ring-2 hover:ring-blue-500"
+//         onClick={() => changeimage(img)}  
+//       />
+//     ))}
+//   </div>
+// )}
 
 
-        <div>
-          <button className="add-btn" onClick={() => addToCart(p)}>
-            Add to Cart 
-          </button>
+//         <div>
+//           <button className="add-btn" onClick={() => addToCart(p)}>
+//             Add to Cart 
+//           </button>
 
     
-        </div>
+//         </div>
+//       </div>
+//     </div>
+//   ))
+// ) : (
+//   <p>No products found in this category.</p>
+// )}
+//    </div>
+
+//     </div>
+
+
+ 
+
+
+<div className=" ">
+      <h2 className="font-bold text-2xl">Shop for: {category}</h2>
+
+      <div className="flex border-2 border-red-500 justify-center flex-wrap">
+        {filteredProducts.length > 0 ? (
+          filteredProducts.map((p) => (
+            <div
+              key={p._id}
+              className={`product-card justify-between pt-0 pr-4 pb-4 pl-4 mx-[15px] 2xl:mx-[10px]`}
+              style={{ boxShadow: "0px 4px 12px rgba(0,0,0,0.5)" }}
+            >
+              {/* ✅ Independent main image per product */}
+              <img
+                src={activeImages[p._id] || p.productImage[0]}
+                alt={p.productName}
+                className="fade-image"
+              />
+
+              <div>
+                <div className="product-title">{p.productName}</div>
+
+                <div className="product-price">₹{p.productPrice}</div>
+
+                 {/* 🔹 Product Description */}
+            <p className=" text-sm mt-1 line-clamp-2">
+              {p.description 
+                ? p.description
+                : "No description available."}
+            </p>
+
+                {p.productImage.length > 0 && (
+                  <div className="gallery flex gap-2 mt-2">
+                    {p.productImage.map((img, idx) => (
+                      <img
+                        key={idx}
+                        src={img}
+                        alt={`${p.productName} ${idx + 1}`}
+                        className="w-16 h-16 object-cover rounded cursor-pointer hover:ring-2 hover:ring-blue-500"
+                        onClick={() => changeImage(p._id, img)} // ✅ har product ki image alag badlegi
+                      />
+                    ))}
+                  </div>
+                )}
+
+                <div>
+                  <button className="add-btn" onClick={() => addToCart(p)}>
+                    Add to Cart
+                  </button>
+                </div>
+              </div>
+            </div>
+          ))
+        ) : (
+          <p>No products found in this category.</p>
+        )}
       </div>
     </div>
-  ))
-) : (
-  <p>No products found in this category.</p>
-)}
-
-    </div>
-
-
-
-
-
 
 
 
