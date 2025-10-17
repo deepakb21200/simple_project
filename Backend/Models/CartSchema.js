@@ -6,14 +6,19 @@ let cartSchema = new Schema( {
                 item :{ type : Schema.Types.ObjectId, ref : "Products" , required : true},
                 price:{type : Number, required:true}, 
                 qty : {type: Number, default :1},
-                shipping: {type : Number , default : 0}
+                shipping: {type : Number , default : 0},
+                      //my 
+               image:{ type:String, required:true }
+             
             }
         ],
         totalPrice :{type : Number, default:0},
         
         totalShipping:{type : Number,default:0},
     
-         userId :{type : Schema.Types.ObjectId, ref: "Users" , required: true}
+         userId :{type : Schema.Types.ObjectId, ref: "Users" , required: true},
+
+         
     },{timestamps: true}
 )
 let Cart = mongoose.model("cart" , cartSchema)

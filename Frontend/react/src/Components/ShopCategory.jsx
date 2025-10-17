@@ -88,6 +88,7 @@ export default function ShopCategory() {
         price: product.productPrice,
         shipping: shippingCost,
         userId: user.id, //mera question hai ki hum isko kyu bhej rahe hai
+      
       },
     });
 
@@ -101,6 +102,9 @@ export default function ShopCategory() {
           productId: product._id,
           price: product.productPrice,
           shipping: shippingCost,
+          image: product.productImage[0] 
+          
+            
         }),
       });
       if (!res.ok) console.error("Failed to add to cart on backend");
@@ -276,7 +280,7 @@ export default function ShopCategory() {
 <div className=" ">
       <h2 className="font-bold text-2xl">Shop for: {category}</h2>
 
-      <div className="flex border-2 border-red-500 justify-center flex-wrap">
+      <div className="flex  justify-center flex-wrap">
         {filteredProducts.length > 0 ? (
           filteredProducts.map((p) => (
             <div

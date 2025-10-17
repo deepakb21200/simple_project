@@ -135,7 +135,6 @@ import { Trash2, RefreshCcw } from "lucide-react";
 import { useDispatch, useSelector } from "react-redux";
 import { useState } from "react";
 import { useEffect } from "react";
-import EmptyCart from "./EmptyCart";
 
 const CartPage = () => {
   const dispatch = useDispatch();
@@ -246,97 +245,104 @@ const CartPage = () => {
   }
 
   return (
- 
-<div className="bg-gray-50 py-10 px-4 flex justify-center flex-1">
-  <div className="w-full max-w-7xl flex flex-col lg:flex-row gap-10   justify-center">
-    {cart.products.length > 0 ? (
-      <>
+    <div className="  bg-gray-50 py-10 px-4 flex justify-center">
+      <div className="w-full max-w-7xl flex flex-col lg:flex-row gap-10">
         {/* LEFT: Product Section */}
-        <div className="flex-1 bg-white rounded-2xl shadow-sm border border-gray-100 p-6   ">
+        <div className="flex-1 bg-white rounded-2xl shadow-sm border border-gray-100 p-6">
           <div className="flex justify-between items-center mb-6">
             <h2 className="text-xl font-semibold text-gray-800">Shopping Cart</h2>
             <span className="text-sm text-gray-500">
-              {cart.products.length} Items
+             {cart.products.length} Items
             </span>
           </div>
 
-          {/* Product List */}
-          {cart.products.map((p, idx) => (
-            <div
-              key={idx}
-              className="flex flex-col sm:flex-row items-center justify-between border-b py-5 gap-4"
-            >
+    
+      {/* <div className="hidden sm:grid grid-cols-4 font-medium text-gray-600 border-b pb-3">
+        <div className="border-2 border-red">Product</div>
+        <div className="text-center border-2 border-red">Price</div>
+        <div className="text-center border-2 border-red">Quantity</div>
+        <div className="text-center border-2 border-red">Total</div>
+      </div> */}
+
+          {/* Product Item */}
+            {
+            cart.products.length > 0 ?  
+
+ 
+  
+             cart.products.map((p, idx) => (
+              <div  key={idx}  className="flex flex-col sm:flex-row items-center justify-between
+               border-b py-5 gap-4" >
               {/* Image + Info */}
-              <div className="flex items-center gap-4 w-full sm:w-1/2">
+              <div className="flex items-center gap-4 w-full sm:w-1/2  ">
                 <img
                   src={p.image}
                   alt={p.name}
                   className="w-20 h-20 object-cover rounded-lg border"
                 />
                 <div>
-                  <h3 className="font-medium text-gray-800 rocks">
-                    {p.item.productName}
-                  </h3>
-                  <button
-                    className="text-sm text-red-500 mt-1 flex items-center gap-1 hover:text-red-600 transition-colors"
-                    onClick={() => {
-                      console.log("Deleting product:", p.item._id);
-                      deleteSpec(p.item._id);
-                    }}
-                  >
-                    <Trash2 size={14} /> Remove
-                  </button>
+                  <h3 className="font-medium text-gray-800 rocks">{p.item.productName}</h3>
+               
+                <button className="text-sm text-red-500 mt-1 flex items-center gap-1 hover:text-red-600 transition-colors"  onClick={() => {
+    console.log("Deleting product:", p.item._id);
+    deleteSpec(p.item._id);
+  }}>
+  <Trash2 size={14} /> Remove
+</button>
+
                 </div>
               </div>
 
-              {/* Price */}
-              <div className="text-gray-800 font-medium w-24 text-center">
-                ₹{p.price}
+         
+              <div className="text-gray-800 font-medium w-24 text-center  ">
+                 {p.price.toFixed(2)}
               </div>
 
-              {/* Quantity */}
-              <div className="flex items-center border rounded-lg">
-                <button
-                  className="px-3 py-1 text-gray-600 hover:bg-[color-mix(in_srgb,_#8c0d4f,_transparent_90%)] hover:text-[#8c0d4f]"
-                  disabled={updating}
-                  onClick={async () => {
-                    if (p.qty === 1) {
-                      const confirmRemove = window.confirm(
-                        "This product will be removed completely. Are you sure?"
-                      );
-                      if (!confirmRemove) return;
-                    }
-                    setUpdatingId(p.item._id);
-                    await updateQuantity(p.item._id, "dec");
-                    setUpdatingId(null);
-                  }}
-                >
-                  -
-                </button>
-
+          
+              <div className="flex items-center border rounded-lg   ">
+                <button className="px-3 py-1 text-gray-600 hover:bg-[color-mix(in_srgb,_#8c0d4f,_transparent_90%)] hover:text-[#8c0d4f]" disabled={updating}
+                onClick={async () => {
+                  if (p.qty === 1) {
+                    const confirmRemove = window.confirm(
+                      "This product will be removed completely. Are you sure?"
+                    );
+                    if (!confirmRemove) return; // user canceled
+                  }
+                  setUpdatingId(p.item._id);
+                  await updateQuantity(p.item._id, "dec");
+                  setUpdatingId(null);
+                }}>-</button>
                 <span className="px-4 text-gray-800">{p.qty}</span>
-
-                <button
-                  className="px-3 py-1 text-gray-600 hover:bg-[color-mix(in_srgb,_#8c0d4f,_transparent_90%)] hover:text-[#8c0d4f]"
-                  disabled={updatingId === p.item._id || p.item.productCount <= 0}
-                  onClick={async () => {
-                    setUpdatingId(p.item._id);
-                    await updateQuantity(p.item._id, "inc");
-                    setUpdatingId(null);
-                  }}
-                >
-                  +
-                </button>
+                <button className="px-3 py-1 text-gray-600 hover:bg-[color-mix(in_srgb,_#8c0d4f,_transparent_90%)] hover:text-[#8c0d4f]"
+                  disabled={updatingId === p.item._id || p.item.productCount <= 0} 
+                //disabled tab hoga  jab uski adminpanel me quantity hi khatam hogayi  hai 
+                // 5
+                //5 +
+                onClick={async () => {
+                  setUpdatingId(p.item._id);
+                  await updateQuantity(p.item._id, "inc");
+                  setUpdatingId(null);
+                }}>+</button>
               </div>
 
               {/* Total */}
-              <div className="text-gray-900 font-semibold w-24 text-center">
+              <div className="text-gray-900 font-semibold w-24 text-center " >
                 ₹{p.price * (p.qty || 1)}
               </div>
             </div>
-          ))}
+            )) 
 
-          {/* Coupon + Clear Cart Section */}
+          
+            
+            
+            :  ( <p>Your cart is empty.</p>)
+            
+            
+            }
+
+     
+
+
           <div className="flex flex-col md:flex-row justify-between items-center gap-4 mt-8">
             <div className="flex w-full md:w-auto">
               <input
@@ -350,21 +356,23 @@ const CartPage = () => {
             </div>
 
             <div className="flex gap-3">
-              <button
-                className="flex items-center gap-2 px-4 py-2 border border-red-400 text-red-500 rounded-lg hover:bg-red-50"
-                onClick={clearHandler}
-              >
+     
+              <button className="flex items-center gap-2 px-4 py-2 border border-red-400 text-red-500 rounded-lg hover:bg-red-50"  onClick={clearHandler}>
                 <Trash2 size={16} /> Clear Cart
               </button>
             </div>
           </div>
         </div>
 
+
+
+
+
+        
+
         {/* RIGHT: Order Summary */}
         <div className="w-full lg:w-1/3 bg-white rounded-2xl shadow-sm border border-gray-100 p-6 h-fit">
-          <h2 className="text-xl font-semibold mb-6 text-gray-800">
-            Order Summary
-          </h2>
+          <h2 className="text-xl font-semibold mb-6 text-gray-800">Order Summary</h2>
 
           <div className="space-y-4 text-sm text-gray-600">
             <div className="flex justify-between">
@@ -418,15 +426,17 @@ const CartPage = () => {
 
           <div className="mt-6 text-center text-gray-500 text-sm">
             <p>We Accept</p>
-            <div className="flex justify-center gap-4 mt-2 text-xl">💳 🏦 💰</div>
+            <div className="flex justify-center gap-4 mt-2 text-xl">
+              💳 🏦 💰
+            </div>
           </div>
         </div>
-      </>
-    ) : (
-      <EmptyCart />
-    )}
-  </div>
-</div>
+
+
+
+      </div>
+    </div>
+
 
  
 

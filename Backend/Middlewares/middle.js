@@ -4,6 +4,8 @@ export async function middle(req,res, next) {
 
     try {
         let token = req.cookies?.token
+        console.log(token);
+        
 
         if(!token) return res.status(401).json({error: "Not authenticated"})
         

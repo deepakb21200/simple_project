@@ -1,3 +1,4 @@
+import mongoose from "mongoose";
 import Cart from "../Models/CartSchema.js"
 import Product from "../Models/ProductSchema.js";
 
@@ -160,7 +161,7 @@ import Product from "../Models/ProductSchema.js";
 
 export const addToCart = async (req, res) => {
   const userId = req.user?._id;
-  const { productId, price, shipping } = req.body;
+  const { productId, price, shipping ,image} = req.body;
 
   console.log("addToCart - userId:", userId);
   console.log("addToCart - req.user:", req.user);
@@ -189,6 +190,8 @@ export const addToCart = async (req, res) => {
         products: [],
         totalPrice: 0,
         totalShipping: 0,
+        //my
+       
       });
     }
 
@@ -209,6 +212,7 @@ export const addToCart = async (req, res) => {
         price,
         shipping,
         qty: 1,
+         image
       });
     }
 
@@ -237,7 +241,7 @@ export const getCart = async (req, res) => {
 
     // products
 
-    console.log(cart);
+    // console.log(cart);
 
     if (!cart) cart = { userId, products: [], totalPrice: 0, totalShipping: 0 };
     else cart = cart.toObject();
@@ -311,3 +315,97 @@ export const updateCart = async (req, res) => {
     res.status(500).json({ error: "Server error" });
   }
 };
+
+
+
+
+
+
+
+
+
+
+
+ 
+
+// export const removeProductFromCart = async (req, res) => {
+//   try {
+//      const userId = req.userId;           // Logged-in user
+//     const productId = req.body.productId; // Product to remove
+
+//     const result = await Cart.updateOne(
+//       { userId },
+//       { $pull: { products: { item: productId } } } // Remove product from array
+//     );
+
+//     if (result.modifiedCount > 0) {
+//       res.json({ message: "Product removed successfully" });
+//     } else {
+//       res.status(404).json({ message: "Product not found in cart" });
+//     }
+//   } catch (error) {
+//     res.status(500).json({ message: "Error removing product", error });
+//   }
+// };
+
+
+
+
+
+ 
+
+export const removeProductFromCart = async (req, res) => {
+  try {
+    const userId = req.user._id;  // middleware se
+   //  const productId = mongoose.Types.ObjectId(req.body.productId); // ObjectId convert
+
+const productId = new mongoose.Types.ObjectId(req.body.productId); // ✅ sahi
+
+    const result = await Cart.updateOne(
+      { userId },
+      { $pull: { products: { item: productId } } }
+    );
+
+    if (result.modifiedCount > 0) {
+      res.json({ message: "Product removed successfully" });
+    } else {
+      res.status(404).json({ message: "Product not found in cart" });
+    }
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: "Error removing product", error });
+  }
+};
+
+
+
+
+
+
+
+
+
+export const clearCart = async (req, res) => {
+  try {
+    const userId = req.user._id; // from middleware
+
+    const result = await Cart.updateOne(
+      { userId },
+      { $set: { products: [] } }
+    );
+
+    if (result.modifiedCount > 0) {
+      res.json({ message: "Cart cleared successfully" });
+    } else {
+      res.status(404).json({ message: "No cart found for this user" });
+    }
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: "Error clearing cart", error });
+  }
+};
+
+
+
+
+

@@ -9,6 +9,7 @@ import ContextProvider from './Context/ContextProvider'
 import CartPage from './Components/CartPage'
  
 import Profile2 from './Components/Profiles2'
+// import Carts from './Components/Carts'
  
 
 function App() {
@@ -23,11 +24,10 @@ function App() {
  
  
            <Routes>
-        {/* <Route path="/" element={<Register/>}/> */}
-           {/* <Route path="/" element={<Login/>}/>   */}
+ 
       <Route path="/" element={<Shop/>}/>
      
-      {/* <Route path="/profile" element={<Profile/>}/> */}
+ 
       <Route path="/profile" element={<Profile2/>}/>
        <Route path="/admin" element={<AdminPanel/>}/>
    
@@ -41,7 +41,7 @@ function App() {
       
   </ContextProvider>
       
-  
+  {/* <Carts/> */}
 
    </div>
     

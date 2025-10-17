@@ -217,11 +217,11 @@ function Navbar() {
             location.pathname === "/cart" ? "text-blue-600" : "text-gray-700"
           }`}
         />
-        {cartCount > 0 && (
+    
           <span className="absolute -top-2 -right-2 bg-blue-600 text-black text-xs rounded-full px-[6px] py-[1px]">
             {cartCount}
           </span>
-        )}
+      
       </Link>
 
 
