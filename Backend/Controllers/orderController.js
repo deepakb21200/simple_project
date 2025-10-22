@@ -66,11 +66,6 @@ import Product from "../Models/ProductSchema.js";
 
 
 
-
-
-
-
-
 export async function addOrder(req, res) {
   try {
     const token = req.cookies.token;

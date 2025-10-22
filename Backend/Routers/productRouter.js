@@ -8,7 +8,7 @@ let productRouter = Router()
 
 productRouter.get("/", getProduct)
 
-productRouter.post("/add-product", upload.array("image",2), handleMulterError, addProduct)
+productRouter.post("/add-product", upload.array("image", 2), handleMulterError, addProduct)
 
 productRouter.patch("/update-product/:id", upload.array("image", 2), handleMulterError, updateProduct)
 

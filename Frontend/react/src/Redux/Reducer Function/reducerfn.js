@@ -90,6 +90,12 @@ let reducerfn = (state=initialState, action)=>{
                 totalShipping
             }
         }
+
+
+        case "admin": return {
+            ...state,
+             isAdmin: action.payload
+        }
          
         default :return state
     }

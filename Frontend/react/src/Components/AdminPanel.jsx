@@ -1,7 +1,8 @@
 import { useEffect, useState } from "react";
 import { Edit2, Trash2 } from "lucide-react";
+import { useDispatch, useSelector } from "react-redux";
 
-<div className="flex gap-4 mt-4 justify-between">
+{/* <div className="flex gap-4 mt-4 justify-between">
   <button
     onClick={() => handleUpdate(p._id, p)}
     className="flex-1 bg-green-500 hover:bg-green-600 text-white py-2 rounded-xl transition font-semibold flex items-center justify-center gap-2"
@@ -14,7 +15,8 @@ import { Edit2, Trash2 } from "lucide-react";
   >
     <Trash2 size={18} /> Delete
   </button>
-</div>
+</div> */}
+
 
 function AdminPanel() {
   const [products, setProducts] = useState([]);
@@ -26,6 +28,18 @@ function AdminPanel() {
     count: 0,
     category: "Men",
   });
+
+  let dispatch = useDispatch()
+const isAdmin=   useSelector(state=>state.isAdmin)
+
+useEffect(()=>{
+  window.addEventListener("beforeunload", ()=>{
+    dispatch({
+      type:"admin",
+      payload: "false"
+    })
+  })
+})
 
 
     const [updatedImages, setUpdatedImages] = useState([]);//dsfsd
@@ -281,12 +295,14 @@ setProducts(Array.isArray(data.products) ? data.products : []);
 
  
 
+<>
+ 
 <div className="p-5 max-w-7xl mx-auto bg-gradient-to-br from-blue-700 via-indigo-800 to-purple-900">
   <h1 className="text-3xl font-bold mb-8 text-center text-gray-800">🛒 Admin Panel - Product Management</h1>
 
-  {/* Add New Product Card */}
+ 
   <div className="bg-white shadow-lg rounded-xl p-6 mb-8 flex flex-col md:flex-row gap-6 items-start">
-    {/* Images */}
+    
     <div className="flex flex-col gap-3 w-full md:w-1/3">
       <label className="font-medium text-gray-700">Image 1:</label>
       <input
@@ -304,7 +320,7 @@ setProducts(Array.isArray(data.products) ? data.products : []);
       />
     </div>
 
-    {/* Product Info */}
+    
     <div className="flex flex-col gap-3 flex-1 w-full">
       <input
         type="text"
@@ -352,12 +368,12 @@ setProducts(Array.isArray(data.products) ? data.products : []);
     </div>
   </div>
 
-  {/* Products List */}
+ 
   <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
     {products.length > 0 ? (
       products.map((p) => (
         <div key={p._id} className="bg-white shadow-lg rounded-xl p-5 flex flex-col gap-3 ">
-          {/* Product Images */}
+         
           <div className="flex gap-2 overflow-x-auto">
             {Array.isArray(p.productImage)
               ? p.productImage.map((img, idx) => (
@@ -366,7 +382,7 @@ setProducts(Array.isArray(data.products) ? data.products : []);
               : <img src={p.productImage} alt="product" className="w-20 h-20 rounded-md object-cover border border-gray-200" />}
           </div>
 
-          {/* Change Images */}
+     
           <div className="flex flex-col gap-2">
             <label className="text-gray-600 text-sm font-medium">Change Image 1:</label>
             <input
@@ -384,7 +400,7 @@ setProducts(Array.isArray(data.products) ? data.products : []);
             />
           </div>
 
-          {/* Product Info */}
+   
           <input
             type="text"
             value={p.productName}
@@ -419,21 +435,7 @@ setProducts(Array.isArray(data.products) ? data.products : []);
             <option value="Kids">Kids</option>
           </select>
 
-          {/* Actions */}
-          {/* <div className="flex gap-3 mt-3 justify-center">
-            <button
-              onClick={() => handleUpdate(p._id, p)}
-              className="flex-1 bg-green-500 hover:bg-green-600 text-white py-2 rounded-lg transition"
-            >
-              ✅ Update
-            </button>
-            <button
-              onClick={() => handleDelete(p._id)}
-              className="flex-1 bg-red-500 hover:bg-red-600 text-white py-2 rounded-lg transition"
-            >
-              🗑️ Delete
-            </button>
-          </div> */}
+     
           <div className="flex gap-4 mt-4 justify-between">
   <button
     onClick={() => handleUpdate(p._id, p)}
@@ -455,6 +457,9 @@ setProducts(Array.isArray(data.products) ? data.products : []);
     )}
   </div>
 </div>
+ 
+ 
+</>
 
 
   );
