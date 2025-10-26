@@ -9,4 +9,4 @@ import { addOrder, getOrder } from "../Controllers/orderController.js"
  orderRouter.get("/getOrder", getOrder)
  orderRouter.post("/addOrder", addOrder)
 
- export default orderRouter 
+ export default orderRouter

@@ -1,6 +1,7 @@
 import mongoose from "mongoose";
 import Cart from "../Models/CartSchema.js"
 import Product from "../Models/ProductSchema.js";
+import User from "../Models/UserSchema.js";
 
 // export async function addToCart(req,res) {
 //     let userId = req.user?._id
@@ -184,6 +185,7 @@ export const addToCart = async (req, res) => {
     }
 
     let cart = await Cart.findOne({ userId });
+    
     if (!cart) {
       cart = new Cart({
         userId,
@@ -361,7 +363,7 @@ export const removeProductFromCart = async (req, res) => {
 
 const productId = new mongoose.Types.ObjectId(req.body.productId); // ✅ sahi
 
-    const result = await Cart.updateOne(
+    const result = await Cart.updateOne( 
       { userId },
       { $pull: { products: { item: productId } } }
     );
@@ -376,7 +378,7 @@ const productId = new mongoose.Types.ObjectId(req.body.productId); // ✅ sahi
     res.status(500).json({ message: "Error removing product", error });
   }
 };
-
+// let b = await User.findByIdAndDelete(req.body.productId, {new:true})
 
 
 

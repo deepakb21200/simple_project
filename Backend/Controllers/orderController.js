@@ -73,7 +73,11 @@ export async function addOrder(req, res) {
 
     const decoded = jwt.verify(token, process.env.secret_key);
 
-    const { products, totalAmount } = req.body;
+    const { products, totalAmount , deliveryAddress} = req.body;
+
+    if(!deliveryAddress){
+      return res.status(400).json({message: "Delivery address is required"})
+    }
 
     for (const item of products) {
       const product = await Product.findById(item.productId);
@@ -97,6 +101,7 @@ export async function addOrder(req, res) {
       userId: decoded.id,
       products,
       totalAmount,
+      deliveryAddress
     });
 
     await order.save();
@@ -113,20 +118,37 @@ export async function addOrder(req, res) {
 export async function getOrder(req, res) {
   try {
     const token = req.cookies.token;
+
     if (!token) return res.status(401).json({ message: "Please login first" });
 
-    const decoded = jwt.verify(token, process.env.secret_key);
+    const decoded = jwt.verify(token, process.env.secret_key)
 
     const orders = await Order.find({ userId: decoded.id }).populate(
       "products.productId"
-    );
-    res.status(200).json({ orders });
+    )
+
+    res.status(200).json({ orders })
+    
   } catch (error) {
     console.error(error);
     res.status(500).json({ message: "Server error", error: error.message });
   }
 }
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+//3.15 min
 
 
 

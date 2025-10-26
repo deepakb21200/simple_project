@@ -86,6 +86,7 @@ import { HiMenuAlt3, HiX } from "react-icons/hi";
 function Navbar() {
   const location = useLocation();
   const [menuOpen, setMenuOpen] = useState(false);
+  const [userName, setUserName] = useState("");//me
 
   const cartCount = useSelector((state) =>
     (state.cart?.products || []).reduce((sum, p) => sum + (p.qty || 1), 0)
@@ -217,10 +218,13 @@ function Navbar() {
             location.pathname === "/cart" ? "text-blue-600" : "text-gray-700"
           }`}
         />
-    
-          <span className="absolute -top-2 -right-2 bg-blue-600 text-black text-xs rounded-full px-[6px] py-[1px]">
-            {cartCount}
-          </span>
+        
+          {cartCount > 0 && (
+  <span className="absolute -top-2 -right-2 bg-blue-600 text-black text-xs rounded-full px-[6px] py-[1px]">
+    {cartCount}
+  </span>
+)}
+
       
       </Link>
 

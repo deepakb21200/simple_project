@@ -1,7 +1,5 @@
-import { log } from "console";
+
 import cloudinary from "../config/Cloudinary.js";
- 
- 
 import fs from "fs"
 import Product from "../Models/ProductSchema.js";
 import Cart from "../Models/CartSchema.js";

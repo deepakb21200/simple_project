@@ -145,6 +145,8 @@ const CartPage = () => {
   const [updatingId, setUpdatingId] = useState(null);
 
 
+  let [Shipping,setShipping] = useState("")
+
 
     useEffect(() => {
       const fetchCart = async () => {
@@ -243,6 +245,12 @@ const CartPage = () => {
     console.error(err);
   
   }
+  }
+
+
+  function addShipping(){
+
+
   }
 
   return (
@@ -362,40 +370,40 @@ const CartPage = () => {
 
         {/* RIGHT: Order Summary */}
         <div className="w-full lg:w-1/3 bg-white rounded-2xl shadow-sm border border-gray-100 p-6 h-fit">
-          <h2 className="text-xl font-semibold mb-6 text-gray-800">
+          <h2 className="text-xl font-bold mb-6 text-gray-800">
             Order Summary
           </h2>
 
-          <div className="space-y-4 text-sm text-gray-600">
-            <div className="flex justify-between">
+          <div className="space-y-4 text-sm  ">
+            <div className="flex justify-between font-bold text-xl text-gray-800 ">
               <span>Subtotal</span>
-              <span className="font-medium text-gray-800">$269.96</span>
+              <span>₹{cart.totalPrice}</span>
             </div>
 
-            <div>
-              <p className="mb-2">Shipping</p>
+            <div className="font-semibold text-md">
+              <p className="mb-2 text-lg">Shipping</p>
               <div className="space-y-2 pl-1">
                 <label className="flex items-center gap-2">
                   <input type="radio" name="ship" defaultChecked />
-                  <span>Standard Delivery – $4.99</span>
+                  <span>Standard Delivery – ₹99</span>
                 </label>
                 <label className="flex items-center gap-2">
                   <input type="radio" name="ship" />
-                  <span>Express Delivery – $12.99</span>
+                  <span>Express Delivery – ₹249</span>
                 </label>
                 <label className="flex items-center gap-2">
                   <input type="radio" name="ship" />
-                  <span>Free Shipping (Orders over $300)</span>
+                  <span>Free Shipping (Orders over ₹3000)</span>
                 </label>
               </div>
             </div>
 
-            <div className="flex justify-between">
+            <div className="flex justify-between text-lg font-semibold">
               <span>Tax</span>
               <span>$27.00</span>
             </div>
 
-            <div className="flex justify-between">
+            <div className="flex justify-between text-lg font-semibold">
               <span>Discount</span>
               <span>-$0.00</span>
             </div>
