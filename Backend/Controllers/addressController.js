@@ -18,15 +18,16 @@ export async function getAddresses(req, res) {
 
 export async function addAddress(req, res) {
   try {
+    //1 ascending order 2 descending order
     const userId = req.user._id;
     const { fullName, phone, addressLine1, addressLine2, city, state, zipCode, country, isDefault } = req.body;
 
       
     const verifiedOTP = await OTP.findOne({
       userId,
-      phone,
+      phone, // ye puchna hai 
       verified: true,
-      expiresAt: { $gt: new Date() }
+      expiresAt: { $gt: new Date() } //ye kab run ho raha hai ki verify se pehle ya baad me a
     }); //otp
 
     if (!verifiedOTP) {
@@ -46,8 +47,10 @@ export async function addAddress(req, res) {
       city,
       state,
       zipCode,
-      country: country || "India",
-      isDefault: isDefault || false,
+      // country: country || "India",
+      country: country,
+      // isDefault: isDefault || false, ye hata bhi denge to bhi koi dikkat nhi hia kyuki hum vah default set kar rahe hai already.
+      isDefault: isDefault 
     });
 
     await address.save();

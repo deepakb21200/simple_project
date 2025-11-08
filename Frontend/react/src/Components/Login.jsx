@@ -91,6 +91,7 @@ const [lockTime, setLockTime] = useState(null);
 
 const navigate = useNavigate();
 
+
   const handleLogin = async () => {
      if (lockTime && Date.now() - lockTime < 2 * 60 * 1000) {
     alert("Too many failed attempts. Please try again after 2 minutes.");
@@ -123,6 +124,13 @@ const navigate = useNavigate();
     const profileData = await profileRes.json();
       setLoggedInUser(profileData.user);
       setAttempts(0)// ye maine kara hai
+
+       dispatch({
+          type:"productAdd",
+          payload:{
+            isAdding: true
+          }
+         })//2 nov
     }
     else{
         setAttempts(prev => prev + 1);

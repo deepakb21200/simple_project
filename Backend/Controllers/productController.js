@@ -131,6 +131,7 @@ export async function updateProduct(req, res) {
     const updatedData = req.body;
 
     const existingProduct = await Product.findById(id);
+        // const existingProduct = await Product.find({id});
     if (!existingProduct) return res.status(404).json({ message: "Product not found" });
 
     if (updatedData.productCount != null) {

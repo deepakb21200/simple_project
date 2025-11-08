@@ -1,7 +1,7 @@
 export const sendOTP = async (phone, otp) => {
   try {
- 
-    return { success: true, message: "OTP sent", otp: otp };
+    return { success: true,
+       message: "OTP sent", otp: otp };
   } catch (error) {    return { success: false, message: "Failed to send OTP" };
   }
 };

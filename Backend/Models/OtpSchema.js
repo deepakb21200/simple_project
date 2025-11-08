@@ -10,7 +10,7 @@ const otpSchema = new Schema({
 
 
 otpSchema.index({ expiresAt: 1 }, { expireAfterSeconds: 0});
-
+  
 const OTP = model("OTP", otpSchema);
 
 export default OTP;

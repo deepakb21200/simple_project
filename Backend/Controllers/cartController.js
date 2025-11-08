@@ -183,7 +183,7 @@ export const addToCart = async (req, res) => {
     if (productDoc.productCount <= 0) {
       return res.status(400).json({ error: "Product is out of stock" });
     }
-
+let user= await User.findById(userId)
     let cart = await Cart.findOne({ userId });
     
     if (!cart) {
@@ -193,6 +193,7 @@ export const addToCart = async (req, res) => {
         totalPrice: 0,
         totalShipping: 0,
         //my
+         itemsAdded:0//2nov
        
       });
     }
@@ -216,6 +217,10 @@ export const addToCart = async (req, res) => {
         qty: 1,
          image
       });
+         cart.itemsAdded +=1
+      
+      let newCart= user.Cartvalue+1
+   await User.findOneAndUpdate({_id:userId}, {Cartvalue:newCart })
     }
 
     cart.totalPrice = cart.products.reduce(
@@ -223,7 +228,7 @@ export const addToCart = async (req, res) => {
       0
     );
     cart.totalShipping = cart.products.reduce((sum, p) => sum + p.shipping, 0);
-
+await user.save()
     await cart.save();
 
     res.status(200).json({ message: "Product added to cart", cart });
@@ -282,7 +287,7 @@ export const updateCart = async (req, res) => {
     if (action === "inc") {
       if (productInCart.qty + 1 > stock) {
         return res.status(400).json({ error: "Stock limit reached" });
-      }
+      }// ye sirf extra validations ke liye hai.
       productInCart.qty += 1;
     } else if (action === "dec") {
       productInCart.qty -= 1;
@@ -290,10 +295,10 @@ export const updateCart = async (req, res) => {
       if (productInCart.qty <= 0) {
         cart.products = cart.products.filter(
           (p) => p.item.toString() !== productId
-        );
+        );//ye rmeove ke liye hai
       }
     } else {
-      return res.status(400).json({ error: "Invalid action" });
+      return res.status(400).json({ error: "Invalid action" })// ye bhi extra validations
     }
 
     cart.totalPrice = cart.products.reduce(

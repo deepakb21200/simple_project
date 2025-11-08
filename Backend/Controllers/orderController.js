@@ -85,6 +85,7 @@ export async function addOrder(req, res) {
         return res
           .status(404)
           .json({ message: `Product ${item.productId} not found` });
+          //case admin panel me se product hi delete kar diya
       }
 
       if (product.productCount < item.qty) {

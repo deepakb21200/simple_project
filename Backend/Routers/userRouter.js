@@ -11,6 +11,8 @@ let userRouter= Router()
 
 userRouter.post("/signup", upload.single("picture") , handleMulterError,signup)
 userRouter.post("/login", password, login)
+// userRouter.get("/getProfile", getProfile)
+// userRouter.post("/logout", logout) 2nov se pehle ka
 userRouter.get("/getProfile", getProfile)
 userRouter.post("/logout", logout)
 userRouter.put("/updateProfile", upload.single("picture"), handleMulterError, updateProfile);

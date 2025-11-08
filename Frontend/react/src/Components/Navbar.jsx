@@ -77,27 +77,81 @@
 
 
 import React, { useState } from "react";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { Link, useLocation } from "react-router-dom";
 import { TiShoppingCart } from "react-icons/ti";
 import { CgProfile } from "react-icons/cg";
 import { HiMenuAlt3, HiX } from "react-icons/hi";
+import { useEffect } from "react";
 
 function Navbar() {
   const location = useLocation();
+    const dispatch = useDispatch();
+ 
+    const [cartt, setCart]= useState(0)
   const [menuOpen, setMenuOpen] = useState(false);
   const [userName, setUserName] = useState("");//me
 
   const cartCount = useSelector((state) =>
     (state.cart?.products || []).reduce((sum, p) => sum + (p.qty || 1), 0)
   );
-
+ let status = useSelector(state=>state.isProductAdd)
   const navLinks = [
     { path: "/shop", label: "Shop" },
     { path: "/shop/men", label: "Men" },
     { path: "/shop/women", label: "Women" },
     { path: "/shop/kids", label: "Kids" },
   ];
+
+    useEffect(() => {//2nov 2025
+    console.log(status);
+    
+    // Backend se login check aur user info fetch
+    const fetchUser = async () => {
+
+         dispatch({
+            type:"productAdd",
+            payload:{
+              isAdding: false
+            }
+          })
+      try {
+        const res = await fetch("http://localhost:3000/user/getProfile", {
+          method: "GET",
+          credentials: "include", // cookies ke liye
+        });
+        const data = await res.json();
+        console.log(data);
+        
+        setCart(data.user.Cartvalue)
+        if (res.ok && data.user) {
+          const name = data.user.firstName + " " + data.user.lastName;
+setUserName(name)
+          dispatch({
+            type: "set-user",
+            payload: {
+              id: data.user._id,
+              name,
+              email: data.user.email,
+            },
+          });
+
+       
+        } else {
+          setUserName(""); 
+              dispatch({
+            type:"productAdd",
+            payload:{
+              isAdding: false
+            }
+          })
+        }
+      } catch (err) {
+        // console.error("Failed to fetch user:", err);
+        setUserName("");
+      } };
+     fetchUser();
+  }, [ status]);
 
   return (
     // <nav className="fixed top-0 left-0 w-full bg-white shadow-md z-50 ">
@@ -219,11 +273,19 @@ function Navbar() {
           }`}
         />
         
-          {cartCount > 0 && (
-  <span className="absolute -top-2 -right-2 bg-blue-600 text-black text-xs rounded-full px-[6px] py-[1px]">
+          {/* {cartCount > 0 && (
+  <span className="absolute -top-2 -right-2 bg-blue-600 text-black text-xs 
+  rounded-full px-[6px] py-[1px]">
     {cartCount}
+
   </span>
-)}
+)} */}
+
+ 
+    <span className="absolute -top-2 -right-2 bg-blue-600 text-black text-xs rounded-full px-[6px] py-[1px]">
+{ userName== "" ? 0 :cartt }
+    </span>
+ 
 
       
       </Link>
@@ -237,6 +299,7 @@ function Navbar() {
               : "text-gray-700"
           }`}
         />
+        {userName ? `Hi, ${userName}` : ""}
       </Link>
 
       <button

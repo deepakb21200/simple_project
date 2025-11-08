@@ -9,11 +9,12 @@ let initialState = {
     user:{
         id:null,
         name:"",
-        email:""
+        userName:""
     },
 
 
-    cartCount:0
+    cartCount:0,
+    isProductAdd : false
 }
 
 

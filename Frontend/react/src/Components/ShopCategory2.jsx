@@ -84,15 +84,6 @@ export default function ShopCategory() {
       },
     });
 
-    
-    // dispatch({
-    //   type:"productAdd",
-    //   payload:{
-    //     isAdding:true
-    //   }
-    // })
-
-
     try {
       const res = await fetch("http://localhost:3000/cart/add", {
         method: "POST",
@@ -108,25 +99,10 @@ export default function ShopCategory() {
             
         }),
       });
-      // if (!res.ok) console.error("Failed to add to cart on backend");
-        if (!res.ok) {//2nov 
-    
-      alert(data.error || "Failed to add to cart!");
-      return;
-    }
-
-      dispatch({ //2nov
-      type:"productAdd",
-      payload:{
-        isAdding:true
-      }
-    })
-
-
+      if (!res.ok) console.error("Failed to add to cart on backend");
     } catch (err) {
       console.error(err);
     }
-      alert("Item added to cart successfully!");
   };
 
 
@@ -358,7 +334,7 @@ export default function ShopCategory() {
  
 
         {filteredProducts.length > 0 ? (
-  <div className="  flex  flex-wrap justify-center content-normal ">
+  <div className="border-[5px] border-red-600  flex  flex-wrap justify-center content-normal ">
  
       {filteredProducts.map((p) => (
   

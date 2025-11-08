@@ -25,7 +25,12 @@ let UserSchema = new Schema({
 
     picture:{
         type:String
-    }
+    },
+    Cartvalue:{
+    type:Number,
+    default:0,
+    required:true
+   }
 
 
 })

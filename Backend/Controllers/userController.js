@@ -218,7 +218,7 @@ import fs from "fs"
 
 
 export async function signup(req, res) {
-  const { firstName, lastName, userName, password } = req.body;
+  const { firstName, lastName, userName, password, Cartvalue } = req.body;
 
   try {
     if (!password) {
@@ -251,6 +251,7 @@ export async function signup(req, res) {
       userName,
       password: hashedPassword,
       picture: pictureUrl,
+      Cartvalue
     });
 
     await user.save();
@@ -278,6 +279,7 @@ export async function login(req, res) {
           firstName: user.firstName,
           lastName: user.lastName,
           userName: user.userName,
+           Cartvalue:user.Cartvalue
         },
       });
   } catch (error) {
@@ -375,6 +377,7 @@ export async function updateProfile(req, res) {
         lastName: user.lastName,
         userName: user.userName,
         picture: user.picture,
+         Cartvalue:user.Cartvalue //2 nov
       },
     });
   } catch (error) {

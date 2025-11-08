@@ -91,6 +91,11 @@ let reducerfn = (state=initialState, action)=>{
             }
         }
 
+        case "productAdd" :return{
+  ...state,
+  isProductAdd:action.payload.isAdding
+}
+
 
         case "admin": return {
             ...state,

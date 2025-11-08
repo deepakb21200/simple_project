@@ -3,25 +3,26 @@ import { useEffect, useState } from "react";
 import "../CSS/Profile.css";
 import { MdCameraEnhance } from "react-icons/md";
 import { useNavigate } from "react-router-dom";
-
 import { FaUser } from "react-icons/fa";
-import Login from "./Login";
-import Register from "./Register";
+import { useDispatch } from "react-redux";
 function Profile2() {
+  const dispatch = useDispatch();//2nov
+  const navigate = useNavigate()
+
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [loggedInUser, setLoggedInUser] = useState(null);
-  const [form, setForm] = useState({ firstName: "", lastName: "", userName: "", password: "" , picture:""});
+  const [form, setForm] = useState({ 
+    firstName: "",
+    lastName: "",
+    userName: "",
+    password: "",
+    picture:""
+  })
+    
   const [loading, setLoading] = useState(false);
   const [showSignup, setShowSignup] = useState(true);
-
-  const [showSignup2, setShowSignup2] = useState(true);
-
-
-
-// const navigate = useNavigate();
-
-// const [attempts, setAttempts] = useState(0);
-// const [lockTime, setLockTime] = useState(null);
+  const [attempts, setAttempts] = useState(0);
+  const [lockTime, setLockTime] = useState(null);
   const [passwordError, setPasswordError] = useState("");
   const [showPassword, setShowPassword] = useState(false);
 
@@ -42,6 +43,20 @@ function Profile2() {
     checkLogin();
   }, []);
 
+
+    const validatePassword = (value) => {
+    const strongPassword =
+      /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%^&*]).{8,}$/;
+    if (!strongPassword.test(value)) {
+      setPasswordError(
+        " Password must include uppercase, lowercase, number & special char"
+      );
+    } else {
+      setPasswordError("");
+    }
+  };
+
+
   const handleSignup = async () => {
     if (passwordError) {
       alert("Please enter a strong password before signing up!");
@@ -52,7 +67,11 @@ function Profile2() {
     formData.append("lastName", form.lastName);
     formData.append("userName", form.userName);
     formData.append("password", form.password);
+    console.log(formData, "formdsfdsdf");
+    
     if (form.picture) {
+      console.log(form.picture,"formssspicture");
+      
       formData.append("picture", form.picture); // file append
     }
   try {
@@ -82,56 +101,60 @@ function Profile2() {
   }
   };
 
-  const validatePassword = (value) => {
-    const strongPassword = /^(?=.*[0-9])(?=.*[!@#$%^&*]).{8,}$/;
-    if (!strongPassword.test(value)) {
-      setPasswordError("⚠️ Enter a strong password");
-    } else {
-      setPasswordError("");
+ 
+
+  const handleLogin = async () => {
+     if (lockTime && Date.now() - lockTime < 2 * 60 * 1000) {
+    alert("Too many failed attempts. Please try again after 2 minutes.");
+    return;
+  }
+    const res = await fetch("http://localhost:3000/user/login", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      credentials: "include",
+      body: JSON.stringify({ userName: form.userName, password: form.password }),
+    });
+    const data = await res.json();
+
+    if (res.ok) {
+      setIsLoggedIn(true);
+      //yaha daalna hai 
+       setAttempts(0);
+          if (data.isAdmin) {
+      
+        navigate("/admin");
+        return; 
+      }
+         const profileRes = await fetch("http://localhost:3000/user/getProfile", {
+      method: "GET",
+      credentials: "include",
+    });
+    const profileData = await profileRes.json();
+      setLoggedInUser(profileData.user)
+
+       dispatch({
+          type:"productAdd",
+          payload:{
+            isAdding: true
+          }
+         })
+
+
+
+    }
+
+    else{
+        setAttempts(prev => prev + 1);
+        //0
+        //1
+        if(attempts+1 >=3){
+              setLockTime(Date.now());   
+      alert("Too many failed attempts! Try again in 2 minutes.");
+      return;
+        }
+      alert(data.error|| "login failed")
     }
   };
-
-//   const handleLogin = async () => {
-//      if (lockTime && Date.now() - lockTime < 2 * 60 * 1000) {
-//     alert("Too many failed attempts. Please try again after 2 minutes.");
-//     return;
-//   }
-//     const res = await fetch("http://localhost:3000/user/login", {
-//       method: "POST",
-//       headers: { "Content-Type": "application/json" },
-//       credentials: "include",
-//       body: JSON.stringify({ userName: form.userName, password: form.password }),
-//     });
-//     const data = await res.json();
-
-//     if (res.ok) {
-//       setIsLoggedIn(true);
-//       //yaha daalna hai 
-//        setAttempts(0);
-//           if (data.isAdmin) {
-      
-//         navigate("/admin");
-//         return; 
-//       }
-//          const profileRes = await fetch("http://localhost:3000/user/getProfile", {
-//       method: "GET",
-//       credentials: "include",
-//     });
-//     const profileData = await profileRes.json();
-//       setLoggedInUser(profileData.user);
-//     }
-//     else{
-//         setAttempts(prev => prev + 1);
-//         //0
-//         //1
-//         if(attempts+1 >=3){
-//               setLockTime(Date.now());   
-//       alert("Too many failed attempts! Try again in 2 minutes.");
-//       return;
-//         }
-//       alert(data.error|| "login failed")
-//     }
-//   };
 
   const handleLogout = async () => {
     const res = await fetch("http://localhost:3000/user/logout", {
@@ -143,6 +166,13 @@ function Profile2() {
       setLoggedInUser(null);
       setForm({ firstName: "", lastName: "", userName: "", password: "" ,picture:null});
       setShowSignup(true);
+      
+      dispatch({
+          type:"productAdd",
+          payload:{
+        isAdding:true
+      }
+         })
     }
   };
 
@@ -160,167 +190,125 @@ function Profile2() {
             ) : (
               <> 
 
+ {showSignup ? (
+       <div className="register-wrapper   flex justify-center items-center  flex-1">
+      <div className="register-card">
+        <div className="left-panel">
+          <div className="illustration">
+            <h2>Welcome!</h2>
+            <p>Secure & Smart Registration</p>
+            <div className="icons">
+              {/* 🔒 💳 📱 ⭐ */}
+            <img  src="/logs.jpg"   alt="Icon" className="w-full h-full"/>
+            </div>
+          </div>
+        </div>
 
+        <div className="right-panel">
+          <h2 className='text-black'>Sign In</h2>
+          <p className="subtitle">Join to Us</p>
+          <form onSubmit={(e)=>{
+            e.preventDefault()
+            handleSignup()
+          }}>
 
-
-   {showSignup ? (
-        <Register
-         setShowSignup={setShowSignup}
-          setLoading={setLoading}
-        />
-      ) : (
-        <Login
-         setShowSignup={setShowSignup}
-  
-          showPassword={showPassword}
-          setShowPassword={setShowPassword}
-   
-         setIsLoggedIn={setIsLoggedIn}
-         setLoggedInUser={setLoggedInUser}
-        />
-      )}
-
-
-
-
-                {/* {showSignup && ( 
-                  <div className="form-block">
-                    <h2>Signup</h2>
-                    <div className="form-grid">
-                      <input className="input" placeholder="First Name" onChange={e => setForm({ ...form, firstName: e.target.value })} />
-                      <input className="input" placeholder="Last Name" onChange={e => setForm({ ...form, lastName: e.target.value })} />
-                      <input className="input" placeholder="Username" onChange={e => setForm({ ...form, userName: e.target.value })} />
-
-           
-                      <div style={{ position: "relative" }}>
-                        <input
-                          className="input"
-                          placeholder="Password"
-                          type={showPassword ? "text" : "password"}
-                          onChange={e => {
+       <input type="text" placeholder="First Name"  
+        onChange={e => setForm({ ...form, firstName: e.target.value })} className='_input'/>
+  <input type="text" placeholder="Last Name" onChange={e => setForm({ ...form, lastName: e.target.value })} className='_input' />
+  <input type="text" placeholder="User Name"  onChange={e => setForm({ ...form, userName: e.target.value })} className='_input'/>
+              {/* Password wrapper */}
+          <div className="password-wrapper">
+            <input
+              type={showPassword ? "text" : "password"}
+              placeholder="Password"
+              className="password-input mb-0"
+              onChange={e => {
                             setForm({ ...form, password: e.target.value });
                             validatePassword(e.target.value);
-                          }}
-                        />
-                        <span
-                          onClick={() => setShowPassword(!showPassword)}
-                          style={{
-                            position: "absolute",
-                            right: "12px",
-                            top: "50%",
-                            transform: "translateY(-50%)",
-                            cursor: "pointer",
-                            color: "rgba(250,250,250,0.6)"  
-                          }}
-                        >
-                          {showPassword ? "🙈" : "👁️"}
-                        </span>
-                      </div>
-
-                      {passwordError && (
+                          }} />
+            <span className="toggle-password" onClick={() => setShowPassword(!showPassword)}  >
+              {showPassword ? "🙈" : "👁️"}
+            </span>
+          </div>
+           {passwordError && (
                         <p style={{ color: "red", fontSize: "12px", marginTop: "4px" }}>
                           {passwordError}
                         </p>
                       )}
-                      <div className="profile-pic">
-     <label htmlFor="">Profile-:</label>
-<input type="file" name="" id="" onChange={e => {
-                            setForm({ ...form, picture: e.target.files[0] });
-    
-                          }}/>
-                      </div>
-                 
-                      <button className="btn btn-primary" onClick={handleSignup}>Signup</button>
-                    </div>
-                  </div>
-                )} */}
+     
+  <input type="file" className="file-input border-none w-auto inline"  />
+            <button type="submit"  >REGISTER</button>
+          </form>
 
 
-               
+          <p className="login-link text-black text-lg">
+  Already user?{" "}
+  <button
+    onClick={() => setShowSignup(false)} // toggle to Login
+    className="text-blue-600 hover:underline"
+  >
+    Login here
+  </button>
+</p>
 
-                {/* <div className="hr" /> */}
+        </div>
+      </div>
+    </div>
+      ) : (
+          <div className="login-wrapper flex-1">
+        <div className="login-card">
+          <h2 className="login-title text-black">Login</h2>
+          <p className="login-subtitle">Welcome back! Please login to your account.</p>
+          <form onSubmit={(e) => e.preventDefault()} className="login-form">
+            {/* Username */}
+            <input
+              type="text"
+              placeholder="Username"
+              className="login-input"
+               onChange={e => setForm({ ...form, userName: e.target.value })}
+            />
 
-                {/* <div className="form-block">
-                  <h2>Logins</h2>
-                  <div className="form-grid">
-                    <input className="input" placeholder="Username" onChange={e => setForm({ ...form, userName: e.target.value })} />
+            {/* Password wrapper */}
+            <div className="password-wrapper">
+              <input
+                type={showPassword ? "text" : "password"}   placeholder="Password"
+                 className="password-input mb-0"
+                onChange={e => setForm({ ...form, password: e.target.value })}
+              />
+              <span className="toggle-password" onClick={() => setShowPassword(!showPassword)}>
 
-                
-                    <div style={{ position: "relative" }}>
-                      <input
-                        className="input"
-                        placeholder="Password"
-                        type={showPassword ? "text" : "password"}
-                        onChange={e => setForm({ ...form, password: e.target.value })}
-                      />
-                      <span
-                        onClick={() => setShowPassword(!showPassword)}
-                        style={{
-                          position: "absolute",
-                          right: "12px",
-                          top: "50%",
-                          transform: "translateY(-50%)",
-                          cursor: "pointer",
-                          color: "rgba(250,250,250,0.6)"
-                        }}
-                      >
-                        {showPassword ? "🙈" : "👁️"}
-                      </span>
-                    </div>
+                {showPassword ? "🙈" : "👁️"}
+              </span>
+            </div>
 
-                    <div className="row">
-                      <button className="btn btn-primary" onClick={handleLogin}>Login</button>
-                    </div>
-                  </div>
-                </div> */}
+            <button type="submit"  onClick={handleLogin}  className="login-button" >
+              LOGIN </button>
+          </form>
+        
 
+          <p className="register-text">
+  New user?{" "}
+  <button
+    onClick={() => setShowSignup(true)} // ✅ toggle to Register
+    className="register-link text-blue-600 hover:underline"
+  >
+    Register here
+  </button>
+</p>
+        </div>
+      </div>
+      )}
 
-
-
-
-
-                   {/* <Login  showPassword= {showPassword} setShowPassword={setShowPassword}
-                    handleLogin ={handleLogin} setAttempts={setAttempts} setIsLoggedIn={setIsLoggedIn} /> */}
               </>
             )}
-          </div>
-
-
-
-        
-     
+          </div> 
  
     );
   }
 
 
   return (
-   
-
-//       <div className="auth-page">
-//     <div className="profile-card">
-//       <div className="welcome-card">
-//         <div className="picture-div">
-//           <FaUser />
-//       <img src={loggedInUser?.picture} alt="" className="picture"/>
-//         <button className="edit-icon">
-//           <MdCameraEnhance />
-//         </button>
-//         </div>
-  
-//         <h2>Welcome {loggedInUser?.firstName} {loggedInUser?.lastName}</h2>
-//         <p className="small-muted">Username: {loggedInUser?.userName}</p>
-//         <div style={{ marginTop: 12 }}>
-//           <button className="btn btn-primary" onClick={handleLogout}>Logout</button>
-//         </div>
-//       </div>
-//     </div>
-//   </div>
-
-
-
-
-<div className="flex justify-center items-center  flex-1 bg-gradient-to-r from-indigo-100 to-purple-100 p-6">
+  <div className="flex justify-center items-center  flex-1 bg-gradient-to-r from-indigo-100 to-purple-100 p-6">
   <div className="bg-white shadow-2xl rounded-3xl w-full max-w-xl p-10 md:p-16 flex flex-col items-center">
     {/* Profile Picture */}
     <div className="relative w-52 h-52 mb-8 md:mb-10">
@@ -360,12 +348,6 @@ function Profile2() {
     </div>
   </div>
 </div>
-
-
-
-
-
-
   );
 }
 
