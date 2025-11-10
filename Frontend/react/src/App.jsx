@@ -12,6 +12,9 @@ import Profile2 from './Components/Profiles2'
 import { CheckoutProvider } from './Context_Order/ContextOrder'
 import CheckOut from './Components/CheckOut'
 import Banner from './Components/Banner'
+import NewArrivals from './Components/NewArrivals'
+import Trending from './Components/Trending'
+import ShopFilter from './Components/ShopFilter'
 // import UserCreditentials from './Components/UserCreditentials'
 // import ShippingForm from './Components/ShippingForm'
 // import ReviewOrder from './Components/ReviewOrder'
@@ -26,7 +29,7 @@ function App() {
  
    <div className='  min-h-screen w-full flex flex-col '>
       <Navbar/>
-      {/* <Banner/> */}
+   
  
           <ContextProvider>
    
@@ -34,7 +37,9 @@ function App() {
  
            <Routes>
  
-      <Route path="/" element={<Shop/>}/>
+      {/* <Route path="/" element={<Shop/>}/> */}
+      <Route path="/" element={ <Banner/>}/>
+      
      
  
       <Route path="/profile" element={<Profile2/>}/>
@@ -52,6 +57,9 @@ function App() {
   }/>
    
     </Routes>
+    <NewArrivals/>
+    <Trending/>
+    <ShopFilter/>
    
  
       

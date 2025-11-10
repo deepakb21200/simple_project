@@ -25,7 +25,7 @@ body,
 
 
 body {
-  background: #f5f5f5;
+  background: #0e0e10;
   font-family: "Segoe UI", sans-serif;
 }
 
@@ -72,17 +72,6 @@ body {
   color: #27ae60;
 }
 
-.product-discount {
-  color: #e74c3c;
-  font-size: 12px;
-  margin-left: 6px;
-}
-
-.product-meta {
-  font-size: 12px;
-  color: #888;
-  margin-top: 5px;
-}
 
 .gallery {
   display: flex;
@@ -139,3 +128,25 @@ body {
 .fade-image.fade-out {
   opacity: 0;
 }
+
+
+
+
+
+
+
+
+
+
+
+/* .product-discount {
+  color: #e74c3c;
+  font-size: 12px;
+  margin-left: 6px;
+} */
+
+/* .product-meta {
+  font-size: 12px;
+  color: #888;
+  margin-top: 5px;
+} */

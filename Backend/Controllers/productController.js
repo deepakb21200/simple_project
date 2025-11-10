@@ -128,7 +128,14 @@ export async function addProduct(req, res) {
 export async function updateProduct(req, res) {
   try {
     const { id } = req.params;
-    const updatedData = req.body;
+    // const updatedData = req.body;
+
+    let updatedData = { ...req.body };
+
+// convert string → number (important for Mongoose)
+if (updatedData.productPrice) updatedData.productPrice = Number(updatedData.productPrice);
+if (updatedData.productCount) updatedData.productCount = Number(updatedData.productCount);
+
 
     const existingProduct = await Product.findById(id);
         // const existingProduct = await Product.find({id});

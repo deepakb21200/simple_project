@@ -4,7 +4,6 @@ import { useParams } from "react-router-dom";
 import Productcontext from "../Context/context";
 import { useDispatch, useSelector } from "react-redux";
 import { useRef } from "react";
-import ProductCard from "./ProductCard";
 
 export default function ShopCategory() {
   const dispatch = useDispatch();
@@ -144,7 +143,7 @@ export default function ShopCategory() {
   //mycss
 
   let images = useRef()
-    function changemage(newSrc) {
+    function changeimage(newSrc) {
 
   if (images.current.src.includes(newSrc)){
     return
@@ -294,13 +293,8 @@ export default function ShopCategory() {
  
 
 
-<div className=" flex flex-col   mx-auto   
-                sm:max-w-[90vw] 
-                md:max-w-[90vw] 
-                lg:max-w-[95vw]  border-4 border-blue-700">
-
- 
-  <h2 className="font-bold text-4xl text-white mb-12 text-center ">Shop for: {category}</h2>
+<div className=" flex flex-col mx-auto w-[90vw] ">
+      <h2 className="font-bold text-2xl">Shop for: {category}</h2>
 
  
         {/* <div className="inline-block border-[5px] border-blue-600 ">
@@ -364,76 +358,61 @@ export default function ShopCategory() {
  
 
         {filteredProducts.length > 0 ? (
-  <div className="lg:grid xl:grid-cols-4 lg:grid-cols-3 gap-6    flex  flex-wrap
-  border-4 border-red-400 place-content-center md:justify-between   ">
+  <div className="  flex  flex-wrap justify-center content-normal ">
  
       {filteredProducts.map((p) => (
   
-      //   <div
-      //   key={p._id}
-      //   className={`product-card justify-between pt-0 pr-4 pb-4 pl-4 
-      //      mx-[15px] 2xl:mx-[10px]`}
-      //   style={{ boxShadow: "0px 4px 12px rgba(0,0,0,0.5)" }}
-      // >
-    
-      //   <img
-      //     src={activeImages[p._id] || p.productImage[0]}
-      //     alt={p.productName}
-      //     className="fade-image"
-      //   />
-
-      //   <div>
-      //     <div className="product-title">{p.productName}</div>
-
-      //     <div className="product-price">₹{p.productPrice}</div>
-
-           
-      //     <p className="text-sm mt-1 line-clamp-2">
-      //       {p.description ? p.description : "No description available."}
-      //     </p>
-
-      //     {p.productImage.length > 0 && (
-      //       <div className="gallery flex gap-2 mt-2">
-      //         {p.productImage.map((img, idx) => (
-      //           <img
-      //             key={idx}
-      //             src={img}
-      //             alt={`${p.productName} ${idx + 1}`}
-      //             className="w-16 h-16 object-cover rounded cursor-pointer hover:ring-2 hover:ring-blue-500"
-      //             onClick={() => changeImage(p._id, img)} // ✅ har product ki image alag badlegi
-      //           />
-      //         ))}
-      //       </div>
-      //     )}
-
-      //     <div>
-      //       <button className="add-btn" onClick={() => addToCart(p)}>
-      //         Add to Cart
-      //       </button>
-      //     </div>
-      //   </div>
-      // </div>
-       <ProductCard
+        <div
         key={p._id}
-        product={p}
-        // activeImages={activeImages}
-        // changeImage={changeImage}
-        addToCart={addToCart}
-      />
-    
+        className={`product-card justify-between pt-0 pr-4 pb-4 pl-4 
+          border-2 border-blue-900  mx-[15px] 2xl:mx-[10px]`}
+        style={{ boxShadow: "0px 4px 12px rgba(0,0,0,0.5)" }}
+      >
+        {/* ✅ Independent main image per product */}
+        <img
+          src={activeImages[p._id] || p.productImage[0]}
+          alt={p.productName}
+          className="fade-image"
+        />
 
+        <div>
+          <div className="product-title">{p.productName}</div>
+
+          <div className="product-price">₹{p.productPrice}</div>
+
+          {/* 🔹 Product Description */}
+          <p className="text-sm mt-1 line-clamp-2">
+            {p.description ? p.description : "No description available."}
+          </p>
+
+          {p.productImage.length > 0 && (
+            <div className="gallery flex gap-2 mt-2">
+              {p.productImage.map((img, idx) => (
+                <img
+                  key={idx}
+                  src={img}
+                  alt={`${p.productName} ${idx + 1}`}
+                  className="w-16 h-16 object-cover rounded cursor-pointer hover:ring-2 hover:ring-blue-500"
+                  onClick={() => changeImage(p._id, img)} // ✅ har product ki image alag badlegi
+                />
+              ))}
+            </div>
+          )}
+
+          <div>
+            <button className="add-btn" onClick={() => addToCart(p)}>
+              Add to Cart
+            </button>
+          </div>
+        </div>
+      </div>
+      
     ))}
-
-
-
-
     </div>
  
 ) : (
   <p>No products found in this category.</p>
 )}
- 
-      
 </div>
 
  

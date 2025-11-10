@@ -77,11 +77,12 @@ let productSchema = new Schema({
  
     },
 
-      productCategory:{
-        type:String,
-        required:true,
+    //   productCategory:{
+    //     type:String,
+    //     required:true,
  
-    },
+    // },
+     productCategory: { type: String, required: true, enum: ["Men", "Women", "Kids"], default: "Men" },
 
 
     productPrice:{
@@ -92,13 +93,14 @@ let productSchema = new Schema({
 
     productImage:{
         type:[String],// yaha hum multtiple images allow kar rahe h
-        // required:true
+        required:true
     },
     
 
-    productCount:{
-        type:Number
-    },
+    // productCount:{
+    //     type:Number
+    // },
+     productCount: { type: Number, required: true },
 
   
     description:{
