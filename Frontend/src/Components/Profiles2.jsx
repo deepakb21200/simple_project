@@ -1,6 +1,6 @@
 
 import { useEffect, useState } from "react";
-import "./CSS/Profile.css";
+import "./CSS/profile.css";
 import { MdCameraEnhance } from "react-icons/md";
 import { useNavigate } from "react-router-dom";
 import { FaUser } from "react-icons/fa";
