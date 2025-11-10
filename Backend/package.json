@@ -1,4 +1,7 @@
 {"type": "module",
+"scripts": {
+  "start": "node server.js"
+},
   "dependencies": {
     "bcrypt": "^6.0.0",
     "cloudinary": "^2.7.0",
