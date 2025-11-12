@@ -30,15 +30,37 @@ let app = express()
 
 
 // ✅ Proper CORS config: 2 nov 2025
+// app.use(
+//   cors({
+//     origin: "http://localhost:5173", // frontend origin
+//     credentials: true, // allow cookies
+//     // methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
+//       methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS", "PATCH"],
+//     allowedHeaders: ["Content-Type", "Authorization"],
+//   })
+// );
+
+
+
+
+
+
+// 11 nov 2025
 app.use(
   cors({
-    origin: "http://localhost:5173", // frontend origin
-    credentials: true, // allow cookies
-    // methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
-      methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS", "PATCH"],
+    origin: "https://megamart-6wox.onrender.com",
+    credentials: true, 
+    methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS", "PATCH"],
     allowedHeaders: ["Content-Type", "Authorization"],
+     preflightContinue: false,
+    optionsSuccessStatus: 204,
   })
 );
+
+
+
+
+
 
 
 app.use(cookieParser())

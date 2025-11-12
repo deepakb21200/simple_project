@@ -58,7 +58,7 @@ if (!otpDoc) {
 if(otpDoc.otp== otp){
   otpDoc.verified = true;
     await otpDoc.save();
-     await OTP.deleteOne({_id: otpDoc._id});
+    //  await OTP.deleteOne({_id: otpDoc._id}); 11 nov 2025
      res.status(200).json({ 
       message: "OTP verified successfully",
       verified: true 

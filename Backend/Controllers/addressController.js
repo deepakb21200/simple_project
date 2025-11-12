@@ -23,12 +23,21 @@ export async function addAddress(req, res) {
     const { fullName, phone, addressLine1, addressLine2, city, state, zipCode, country, isDefault } = req.body;
 
       
+    // const verifiedOTP = await OTP.findOne({
+    //   userId,
+    //   phone, // ye puchna hai 
+    //   verified: true,
+    //   expiresAt: { $gt: new Date() } //ye kab run ho raha hai ki verify se pehle ya baad me a
+    // }); //otp
+
+
     const verifiedOTP = await OTP.findOne({
       userId,
       phone, // ye puchna hai 
       verified: true,
-      expiresAt: { $gt: new Date() } //ye kab run ho raha hai ki verify se pehle ya baad me a
+  
     }); //otp
+
 
     if (!verifiedOTP) {
       return res.status(400).json({ message: "Phone number not verified. Please verify OTP first." });
