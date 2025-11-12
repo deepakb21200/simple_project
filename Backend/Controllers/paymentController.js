@@ -8,7 +8,7 @@ let razorpay = new Razorpay({
 })
 
 
-export let creatOrder = async (req, res)=>{
+export let createOrder = async (req, res)=>{
     try {
         let {amount} = req.body
 
@@ -30,7 +30,7 @@ export let creatOrder = async (req, res)=>{
 
 
 export let verifyPayment = async (req, res)=>{
-    
+
     try {
         let{razorpay_order_id, razorpay_payment_id, razorpay_signature} = req.body
 
