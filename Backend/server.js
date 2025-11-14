@@ -9,11 +9,11 @@ import productRouter from "./Routers/productRouter.js"
 import addressRouter from "./Routers/addressRouter.js"
 import orderRouter from "./Routers/orderRouter.js"
 import otpRouter from "./Routers/otpRouter.js"
-<<<<<<< HEAD
+ 
 import paymentRouter from "./Routers/paymentRouter.js"
-=======
+ 
 import router from "./Routers/Payment.js"
->>>>>>> 2adc0d007c6431ea5d969a79058d6953c9c3a9de
+ 
  
  
 dotenv.config()
@@ -84,13 +84,11 @@ app.use("/order", orderRouter)
 app.use("/address", addressRouter)
 
 app.use("/otp", otpRouter)
-
-<<<<<<< HEAD
+ 
 app.use("/payment", paymentRouter);
-=======
+ 
 app.use("/payment", router)
->>>>>>> 2adc0d007c6431ea5d969a79058d6953c9c3a9de
-
+ 
 app.listen(port, ()=>{
     console.log(`Server started at ${port}`);
     
