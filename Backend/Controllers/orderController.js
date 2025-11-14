@@ -2,6 +2,7 @@ import jwt from "jsonwebtoken";
 import Cart from "../Models/CartSchema.js";
 import Order from "../Models/OrderSchema.js";
 import Product from "../Models/ProductSchema.js";
+import User from "../Models/UserSchema.js";
 
 // export async function addOrder(req, res) {
 //   try {
@@ -108,6 +109,8 @@ export async function addOrder(req, res) {
     await order.save();
 
     await Cart.findOneAndDelete({ userId: decoded.id });
+
+    await User.findByIdAndUpdate(decoded.id, { Cartvalue: 0 });//14 nov 2025
 
     res.status(201).json({ message: "Order placed successfully", order });
   } catch (error) {

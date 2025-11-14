@@ -215,7 +215,7 @@ let user= await User.findById(userId)
         price,
         shipping,
         qty: 1,
-         image
+        //  image //temporary
       });
          cart.itemsAdded +=1
       

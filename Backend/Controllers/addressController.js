@@ -36,7 +36,7 @@ export async function addAddress(req, res) {
       phone, // ye puchna hai 
       verified: true,
   
-    }); //otp
+    }); //otp 2 nov
 
 
     if (!verifiedOTP) {
@@ -68,6 +68,82 @@ export async function addAddress(req, res) {
     await OTP.deleteMany({ userId, phone });
 
     res.status(201).json({ message: "Address added successfully", address });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: "Server error", error: error.message });
+  }
+}
+
+
+//11 nov 2025
+
+export async function updateAddress(req, res) {
+  try {
+    const userId = req.user._id;
+    const { id } = req.params;
+    const { fullName, phone, addressLine1, addressLine2, city, state, zipCode, country, isDefault } = req.body;
+
+    const address = await Address.findOne({ _id: id, userId });
+    if (!address) {
+      return res.status(404).json({ message: "Address not found" });
+    }
+
+    if (isDefault) {
+      await Address.updateMany({ userId }, { isDefault: false });
+    }
+
+    Object.assign(address, {
+      fullName,
+      phone,
+      addressLine1,
+      addressLine2,
+      city,
+      state,
+      zipCode,
+      country,
+      isDefault,
+    });
+
+    await address.save();
+    res.status(200).json({ message: "Address updated successfully", address });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: "Server error", error: error.message });
+  }
+}
+
+export async function deleteAddress(req, res) {
+  try {
+    const userId = req.user._id;
+    const { id } = req.params; // konsa address 
+
+    const address = await Address.findOneAndDelete({ _id: id, userId });
+    if (!address) {
+      return res.status(404).json({ message: "Address not found" });
+    }
+
+    res.status(200).json({ message: "Address deleted successfully" });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: "Server error", error: error.message });
+  }
+}
+
+export async function setDefaultAddress(req, res) {
+  try {
+    const userId = req.user._id;
+    const { id } = req.params;
+
+    const address = await Address.findOne({ _id: id, userId });
+    if (!address) {
+      return res.status(404).json({ message: "Address not found" });
+    }
+
+    await Address.updateMany({ userId }, { isDefault: false });
+    address.isDefault = true;
+    await address.save();
+
+    res.status(200).json({ message: "Default address set successfully", address });
   } catch (error) {
     console.error(error);
     res.status(500).json({ message: "Server error", error: error.message });

@@ -16,12 +16,19 @@ let cartSchema = new Schema( {
         
         totalShipping:{type : Number,default:0},
     
-         userId :{type : Schema.Types.ObjectId, ref: "Users" , required: true},
+        userId :{type : Schema.Types.ObjectId, ref: "Users" , required: true},
          shippingMethod: {
             type: String,        // "standard", "express", "free"
              required: true,
              default: "standard"
             },
+
+
+          itemsAdded:{
+            type:Number,
+            default:0,
+            required:true
+        } , 
 
          
     },{timestamps: true}
